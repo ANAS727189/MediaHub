@@ -5,20 +5,21 @@ import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
-import { Video } from "./models/database.js"; // Import Video model
+import sharp from "sharp"; 
+import { Video } from "./models/database.js"; 
 
 const app = express();
 const port = 8000;
 
-// Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "./uploads"),
   filename: (req, file, cb) => cb(null, `${file.fieldname}-${uuidv4()}${path.extname(file.originalname)}`)
 });
 
+
 const upload = multer({
   storage,
-  limits: { fileSize: 800 * 1024 * 1024 }, // 800MB limit
+  limits: { fileSize: 1000 * 1024 * 1024 }, 
   fileFilter: (req, file, cb) => {
     const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg'];
     if (allowedTypes.includes(file.mimetype)) {
@@ -41,49 +42,79 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     const videoId = uuidv4();
     const videoPath = req.file.path;
     const outputPath = `./uploads/videos/${videoId}`;
-    // const outputPath = path.join(__dirname, "uploads", "videos", videoId);
-    const hlsPath = `${outputPath}/index.m3u8`;
+    const thumbnailPath = `${outputPath}/thumbnail.jpg`;
 
+    // Create the output directory for HLS segments and thumbnail
     fs.mkdirSync(outputPath, { recursive: true });
 
-    const ffmpegCommand = `ffmpeg -i ${videoPath} \
+    // Step 1: Generate HLS playlist and segments
+    const ffmpegCommandHLS = `ffmpeg -i ${videoPath} \
       -codec:v libx264 -codec:a aac \
       -hls_time 10 -hls_playlist_type vod \
       -hls_segment_filename "${outputPath}/segment%03d.ts" \
-      -vf "thumbnail,scale=640:360" -frames:v 1 "${outputPath}/thumbnail.jpg" \
-      -start_number 0 ${hlsPath}`;
+      ${outputPath}/index.m3u8`;
 
-    exec(ffmpegCommand, async (error, stdout, stderr) => {
+    exec(ffmpegCommandHLS, (error, stdout, stderr) => {
       if (error) {
-        console.error(`FFmpeg error: ${error.message}`);
-        return res.status(500).json({ message: "Error converting video" });
+        console.error(`FFmpeg HLS error: ${error.message}`);
+        return res.status(500).json({ message: "Error converting video to HLS" });
       }
 
-      // Save video metadata in MongoDB
-      try {
-        const newVideo = new Video({
-          title: req.file.originalname,
-          description: req.body.description || "No description", // Optional field
-          videoPath: `http://localhost:8000/uploads/videos/${videoId}/index.m3u8`,
-          thumbnailPath: `http://localhost:8000/uploads/videos/${videoId}/thumbnail.jpg`,
-        });
+      // Step 2: Extract a frame for the thumbnail (at 2-second mark)
+      const ffmpegCommandThumbnail = `ffmpeg -i ${videoPath} -ss 00:00:02 -vframes 1 ${outputPath}/frame.jpg`;
 
-        await newVideo.save();
+      exec(ffmpegCommandThumbnail, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`FFmpeg thumbnail extraction error: ${error.message}`);
+          return res.status(500).json({ message: "Error extracting thumbnail" });
+        }
 
-        res.status(200).json({
-          message: "Video uploaded successfully",
-          video: newVideo,
-        });
-      } catch (err) {
-        console.error("Database save error:", err);
-        res.status(500).json({ message: "Error saving video metadata" });
-      }
+        // Step 3: Use sharp to resize the extracted frame to a thumbnail
+        sharp(`${outputPath}/frame.jpg`)
+          .resize(640, 360)
+          .toFile(thumbnailPath, async (err) => {
+            if (err) {
+              console.error("Error processing thumbnail with sharp:", err);
+              return res.status(500).json({ message: "Error processing thumbnail" });
+            }
+
+            try {
+        
+              const newVideo = new Video({
+                title: req.file.originalname,
+                description: req.body.description || "No description",
+                videoPath: `http://localhost:8000/uploads/videos/${videoId}/index.m3u8`,
+                thumbnailPath: `http://localhost:8000/uploads/videos/${videoId}/thumbnail.jpg`,
+              });
+
+              await newVideo.save();
+
+              res.status(200).json({
+                message: "Video uploaded successfully",
+                video: newVideo,
+              });
+
+
+              fs.readdir(outputPath, (err, files) => {
+                if (err) {
+                  console.error(`Directory reading error: ${err}`);
+                } else {
+                  console.log(`Files in ${outputPath}:`, files);
+                }
+              });
+            } catch (err) {
+              console.error("Database save error:", err);
+              res.status(500).json({ message: "Error saving video metadata" });
+            }
+          });
+      });
     });
   } catch (error) {
     console.error("Upload error:", error);
     res.status(500).json({ message: "Error uploading video" });
   }
 });
+
 
 app.get("/videos", async (req, res) => {
   try {
@@ -94,6 +125,7 @@ app.get("/videos", async (req, res) => {
     res.status(500).json({ message: "Error fetching videos" });
   }
 });
+
 
 app.get("/videos/:id", async (req, res) => {
   try {

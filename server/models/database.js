@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://localhost:27017/video-streaming")
+mongoose.connect("mongodb+srv://anas:anaskhan083@media-hub.2jmlf.mongodb.net/?retryWrites=true&w=majority&appName=media-hub")
 .then(() => console.log("Database connected"))
 .catch(() => console.log("Database connection failed"))
 

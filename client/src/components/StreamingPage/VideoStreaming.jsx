@@ -60,7 +60,7 @@ const VideoStreaming = () => {
               </div>
             )}
           </div>
-          
+        
           <div className="lg:col-span-1">
             <UploadForm onUploadSuccess={(url) => setVideoUrl(url)} />
           </div>

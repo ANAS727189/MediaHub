@@ -5,6 +5,7 @@ import { ToggleTheme } from "../../context/UserContext";
 export const VideoCard = ({ thumbnail, title, views, duration, onClick }) => {
   const { darkMode } = ToggleTheme();
   
+  
   return (
     <div 
       onClick={onClick}

@@ -6,7 +6,7 @@ import { ToggleTheme } from "../../context/UserContext";
 export const UploadForm = ({ onUploadSuccess }) => {
   const { darkMode } = ToggleTheme();
   const [file, setFile] = useState(null);
-  const [description, setDescription] = useState(''); // New state for description
+  const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
@@ -123,5 +123,6 @@ export const UploadForm = ({ onUploadSuccess }) => {
     </div>
   );
 };
+
 
 export default UploadForm;
