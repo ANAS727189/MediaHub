@@ -1,9 +1,8 @@
 import React, { createContext, useState, useContext } from 'react';
 
-// Create the context
 const UserContext = createContext();
 
-// Create a provider component
+
 export const UserProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(true);
 
@@ -16,5 +15,4 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use the UserContext
 export const ToggleTheme = () => useContext(UserContext);
