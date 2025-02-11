@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import multer from "multer";
@@ -5,21 +6,29 @@ import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
-import sharp from "sharp"; 
 import { Video } from "./models/database.js"; 
+import sharp from "sharp"; 
 
 const app = express();
-const port = 8000;
+const port = 8001;
+
+exec('ffmpeg -version', (error, stdout, stderr) => {
+  if (error) {
+    console.error('FFmpeg is not installed or not accessible:', error);
+    process.exit(1);
+  } else {
+    console.log('FFmpeg is installed and accessible');
+  }
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "./uploads"),
   filename: (req, file, cb) => cb(null, `${file.fieldname}-${uuidv4()}${path.extname(file.originalname)}`)
 });
 
-
 const upload = multer({
   storage,
-  limits: { fileSize: 1000 * 1024 * 1024 }, 
+  limits: { fileSize: 1000 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg'];
     if (allowedTypes.includes(file.mimetype)) {
@@ -29,12 +38,27 @@ const upload = multer({
     }
   }
 });
+const allowedOrigins = [
+  'https://front-media.onrender.com',
+  'http://localhost:5173'
+];
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
-
-// Routes
 app.get("/", (req, res) => res.status(200).send("Hello World!"));
 
 app.post("/upload", upload.single("file"), async (req, res) => {
@@ -42,49 +66,47 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     const videoId = uuidv4();
     const videoPath = req.file.path;
     const outputPath = `./uploads/videos/${videoId}`;
+    const hlsPath = `${outputPath}/index.m3u8`;
     const thumbnailPath = `${outputPath}/thumbnail.jpg`;
-
-    // Create the output directory for HLS segments and thumbnail
-    fs.mkdirSync(outputPath, { recursive: true });
-
-    // Step 1: Generate HLS playlist and segments
-    const ffmpegCommandHLS = `ffmpeg -i ${videoPath} \
+    const framePath = `${outputPath}/frame.jpg`;
+    try {
+      fs.mkdirSync(outputPath, { recursive: true });
+    } catch (err) {
+      return res.status(500).json({ message: "Error creating output directory" });
+    }
+    const ffmpegCommand = `ffmpeg -i ${videoPath} \
       -codec:v libx264 -codec:a aac \
       -hls_time 10 -hls_playlist_type vod \
       -hls_segment_filename "${outputPath}/segment%03d.ts" \
-      ${outputPath}/index.m3u8`;
+      ${hlsPath}`;
 
-    exec(ffmpegCommandHLS, (error, stdout, stderr) => {
+    exec(ffmpegCommand, (error) => {
       if (error) {
         console.error(`FFmpeg HLS error: ${error.message}`);
         return res.status(500).json({ message: "Error converting video to HLS" });
       }
+      const ffmpegCommandThumbnail = `ffmpeg -i ${videoPath} -ss 00:00:02 -vframes 1 ${framePath}`;
 
-      // Step 2: Extract a frame for the thumbnail (at 2-second mark)
-      const ffmpegCommandThumbnail = `ffmpeg -i ${videoPath} -ss 00:00:02 -vframes 1 ${outputPath}/frame.jpg`;
-
-      exec(ffmpegCommandThumbnail, (error, stdout, stderr) => {
+      exec(ffmpegCommandThumbnail, (error) => {
         if (error) {
-          console.error(`FFmpeg thumbnail extraction error: ${error.message}`);
-          return res.status(500).json({ message: "Error extracting thumbnail" });
+          console.error(`FFmpeg frame extraction error: ${error.message}`);
+          return res.status(500).json({ message: "Error extracting frame" });
         }
-
-        // Step 3: Use sharp to resize the extracted frame to a thumbnail
-        sharp(`${outputPath}/frame.jpg`)
+        sharp(framePath)
           .resize(640, 360)
           .toFile(thumbnailPath, async (err) => {
             if (err) {
-              console.error("Error processing thumbnail with sharp:", err);
+              console.error("Sharp thumbnail processing error:", err);
               return res.status(500).json({ message: "Error processing thumbnail" });
             }
 
             try {
-        
               const newVideo = new Video({
                 title: req.file.originalname,
                 description: req.body.description || "No description",
-                videoPath: `http://localhost:8000/uploads/videos/${videoId}/index.m3u8`,
-                thumbnailPath: `http://localhost:8000/uploads/videos/${videoId}/thumbnail.jpg`,
+                videoPath: `https://backend-media-hets.onrender.com/uploads/videos/${videoId}/index.m3u8`,  // Updated videoPath
+                thumbnailPath: `https://backend-media-hets.onrender.com/uploads/videos/${videoId}/thumbnail.jpg`,  // Updated thumbnailPath
+                uploaderId: req.body.uploaderId,
               });
 
               await newVideo.save();
@@ -92,15 +114,6 @@ app.post("/upload", upload.single("file"), async (req, res) => {
               res.status(200).json({
                 message: "Video uploaded successfully",
                 video: newVideo,
-              });
-
-
-              fs.readdir(outputPath, (err, files) => {
-                if (err) {
-                  console.error(`Directory reading error: ${err}`);
-                } else {
-                  console.log(`Files in ${outputPath}:`, files);
-                }
               });
             } catch (err) {
               console.error("Database save error:", err);
@@ -118,14 +131,13 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 app.get("/videos", async (req, res) => {
   try {
-    const videos = await Video.find();  // Fetch all videos from MongoDB
+    const videos = await Video.find();
     res.status(200).json(videos);
   } catch (err) {
     console.error("Error fetching videos:", err);
     res.status(500).json({ message: "Error fetching videos" });
   }
 });
-
 
 app.get("/videos/:id", async (req, res) => {
   try {
@@ -139,6 +151,11 @@ app.get("/videos/:id", async (req, res) => {
     console.error("Error fetching video:", err);
     res.status(500).json({ message: "Error fetching video" });
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: "An unexpected error occurred!" });
 });
 
 app.listen(port, () => {
