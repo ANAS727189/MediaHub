@@ -12,5 +12,5 @@ jobs:
       - name: Send HTTP ping to Render backend
         shell: bash
         run: |
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://z-studio.onrender.com/health-123)
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://mediahub-vuao.onrender.com/health-123)
           echo "Ping response code: $RESPONSE"
