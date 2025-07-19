@@ -1,57 +1,121 @@
 import fs from "fs";
+import path from "path";
 import { exec } from "child_process";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { Video } from "../models/database.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Get the project root directory (assuming controllers is in src/controllers)
+const projectRoot = path.resolve(__dirname, "..", "..");
+console.log("Project root:", projectRoot);
+console.log("Controller __dirname:", __dirname);
 
 export const uploadVideo = async (req, res) => {
   try {
     const videoId = uuidv4();
     const videoPath = req.file.path;
-    const outputPath = `../uploads/videos/${videoId}`;
-    const hlsPath = `${outputPath}/index.m3u8`;
-    const thumbnailPath = `${outputPath}/thumbnail.jpg`;
-    const framePath = `${outputPath}/frame.jpg`;
+    
+    // Use absolute path from project root
+    const baseUploadPath = path.join(projectRoot, "uploads", "videos", videoId);
+    const hlsPath = path.join(baseUploadPath, "index.m3u8");
+    const thumbnailPath = path.join(baseUploadPath, "thumbnail.jpg");
+    const framePath = path.join(baseUploadPath, "frame.jpg");
 
-    fs.mkdirSync(outputPath, { recursive: true });
+    console.log("Base upload path:", baseUploadPath);
+    console.log("HLS path:", hlsPath);
 
-    const ffmpegCommand = `ffmpeg -i ${videoPath} \
-      -codec:v libx264 -codec:a aac \
-      -hls_time 10 -hls_playlist_type vod \
-      -hls_segment_filename "${outputPath}/segment%03d.ts" \
-      ${hlsPath}`;
+    // Ensure directory exists
+    fs.mkdirSync(baseUploadPath, { recursive: true });
 
-    exec(ffmpegCommand, (error) => {
+    const ffmpegCommand = `ffmpeg -i "${videoPath}" -codec:v libx264 -codec:a aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${baseUploadPath}/segment%03d.ts" -y "${hlsPath}"`;
+    
+    console.log("Running FFmpeg command:", ffmpegCommand);
+    
+    exec(ffmpegCommand, (error, stdout, stderr) => {
       if (error) {
         console.error(`FFmpeg HLS error: ${error.message}`);
-        return res.status(500).json({ message: "Error converting video to HLS" });
+        console.error(`FFmpeg stderr: ${stderr}`);
+        return res.status(500).json({ 
+          message: "Error converting video to HLS", 
+          details: error.message + "\n" + stderr 
+        });
       }
+      
+      // Verify HLS playlist was created
+      if (!fs.existsSync(hlsPath)) {
+        console.error("HLS playlist not found after generation:", hlsPath);
+        console.error("Directory contents:", fs.readdirSync(baseUploadPath));
+        return res.status(500).json({ message: "HLS playlist not generated" });
+      }
+      
+      console.log("HLS playlist generated successfully:", hlsPath);
+      console.log("Directory contents:", fs.readdirSync(baseUploadPath));
 
-      const ffmpegCommandThumbnail = `ffmpeg -i ${videoPath} -ss 00:00:02 -vframes 1 ${framePath}`;
-
-      exec(ffmpegCommandThumbnail, (error) => {
+      // Extract frame for thumbnail
+      const ffmpegCommandThumbnail = `ffmpeg -i "${videoPath}" -ss 00:00:02 -vframes 1 -y "${framePath}"`;
+      
+      exec(ffmpegCommandThumbnail, (error, stdout, stderr) => {
         if (error) {
           console.error(`FFmpeg frame extraction error: ${error.message}`);
-          return res.status(500).json({ message: "Error extracting frame" });
+          console.error(`FFmpeg stderr: ${stderr}`);
+          return res.status(500).json({ 
+            message: "Error extracting frame", 
+            details: error.message + "\n" + stderr 
+          });
         }
+        
+        if (!fs.existsSync(framePath)) {
+          console.error("Frame file not found after extraction:", framePath);
+          return res.status(500).json({ message: "Frame file not found after extraction" });
+        }
+        
+        console.log("Frame extracted successfully:", framePath);
 
+        // Process thumbnail with Sharp
         sharp(framePath)
           .resize(640, 360)
+          .jpeg({ quality: 80 })
           .toFile(thumbnailPath, async (err) => {
             if (err) {
               console.error("Sharp thumbnail processing error:", err);
-              return res.status(500).json({ message: "Error processing thumbnail" });
+              return res.status(500).json({ 
+                message: "Error processing thumbnail", 
+                details: err.message 
+              });
             }
+            
+            if (!fs.existsSync(thumbnailPath)) {
+              console.error("Thumbnail file not found after processing:", thumbnailPath);
+              return res.status(500).json({ message: "Thumbnail file not found after processing" });
+            }
+            
+            console.log("Thumbnail processed successfully:", thumbnailPath);
 
             try {
               const newVideo = new Video({
                 title: req.file.originalname,
                 description: req.body.description || "No description",
-                videoPath: `../uploads/videos/${videoId}/index.m3u8`,
-                thumbnailPath: `../uploads/videos/${videoId}/thumbnail.jpg`,
-                uploaderId: req.body.uploaderId,
+                videoPath: `/uploads/videos/${videoId}/index.m3u8`,
+                thumbnailPath: `/uploads/videos/${videoId}/thumbnail.jpg`,
+                uploaderId: req.body.uploaderId || "anonymous",
               });
+              
+              console.log("Saving video to database:", newVideo);
               await newVideo.save();
+              
+              // Cleanup original uploaded file and frame
+              if (fs.existsSync(videoPath)) {
+                fs.unlinkSync(videoPath);
+                console.log("Cleaned up original video file");
+              }
+              if (fs.existsSync(framePath)) {
+                fs.unlinkSync(framePath);
+                console.log("Cleaned up frame file");
+              }
 
               res.status(200).json({
                 message: "Video uploaded successfully",
@@ -59,14 +123,17 @@ export const uploadVideo = async (req, res) => {
               });
             } catch (err) {
               console.error("Database save error:", err);
-              res.status(500).json({ message: "Error saving video metadata" });
+              res.status(500).json({ 
+                message: "Error saving video metadata", 
+                details: err.message 
+              });
             }
           });
       });
     });
   } catch (error) {
     console.error("Upload error:", error);
-    res.status(500).json({ message: "Error uploading video" });
+    res.status(500).json({ message: "Error uploading video", details: error.message });
   }
 };
 
