@@ -10,6 +10,7 @@ export const UploadForm = ({ onUploadSuccess }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
@@ -26,7 +27,7 @@ export const UploadForm = ({ onUploadSuccess }) => {
     formData.append('description', description); // Send the description along with file
 
     try {
-      const response = await fetch('http://localhost:8000/upload', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -45,7 +46,7 @@ export const UploadForm = ({ onUploadSuccess }) => {
 
   return (
     <div className={`rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl p-6`}>
-      <div className="flex items-center space-x-2 mb-4">
+      <div className="flex items-center mb-4 space-x-2">
         <Upload className="w-5 h-5 text-blue-500" />
         <h2 className="text-lg font-semibold">Upload Video</h2>
       </div>
@@ -61,11 +62,11 @@ export const UploadForm = ({ onUploadSuccess }) => {
           />
           <label
             htmlFor="file-upload"
-            className="cursor-pointer flex flex-col items-center"
+            className="flex flex-col items-center cursor-pointer"
           >
             {file ? (
               <>
-                <CheckCircle className="w-8 h-8 text-green-500 mb-2" />
+                <CheckCircle className="w-8 h-8 mb-2 text-green-500" />
                 <p className="font-medium">{file.name}</p>
                 <button
                   type="button"
@@ -73,14 +74,14 @@ export const UploadForm = ({ onUploadSuccess }) => {
                     e.preventDefault();
                     setFile(null);
                   }}
-                  className="mt-2 text-red-500 hover:text-red-600 flex items-center"
+                  className="flex items-center mt-2 text-red-500 hover:text-red-600"
                 >
                   <X className="w-4 h-4 mr-1" /> Remove
                 </button>
               </>
             ) : (
               <>
-                <Upload className="w-8 h-8 text-blue-500 mb-2" />
+                <Upload className="w-8 h-8 mb-2 text-blue-500" />
                 <p className="font-medium">Click to select a video</p>
                 <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>or drag and drop</p>
               </>

@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-mongoose.connect("mongodb+srv://anas:anaskhan083@media-hub.2jmlf.mongodb.net/?retryWrites=true&w=majority&appName=media-hub")
+mongoose.connect(`${process.env.DATABASE_URI}`)
   .then(() => console.log("Database connected"))
   .catch(err => console.log("Database connection failed", err));
 
