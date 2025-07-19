@@ -1,6 +1,6 @@
 import express from "express";
 import upload from "../utils/multer.config.js";
-import { getAllVideos, getVideoById, uploadVideo } from "../controllers/media.controller.js";
+import { getAllVideos, getVideoById, uploadVideo } from "../controllers/media.controllers.js";
 
 const router = express.Router();
 
