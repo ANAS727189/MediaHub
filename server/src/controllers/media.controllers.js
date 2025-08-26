@@ -9,7 +9,6 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Get the project root directory (assuming controllers is in src/controllers)
 const projectRoot = path.resolve(__dirname, "..", "..");
 console.log("Project root:", projectRoot);
 console.log("Controller __dirname:", __dirname);
@@ -19,7 +18,7 @@ export const uploadVideo = async (req, res) => {
     const videoId = uuidv4();
     const videoPath = req.file.path;
     
-    // Use absolute path from project root
+
     const baseUploadPath = path.join(projectRoot, "uploads", "videos", videoId);
     const hlsPath = path.join(baseUploadPath, "index.m3u8");
     const thumbnailPath = path.join(baseUploadPath, "thumbnail.jpg");
@@ -28,7 +27,7 @@ export const uploadVideo = async (req, res) => {
     console.log("Base upload path:", baseUploadPath);
     console.log("HLS path:", hlsPath);
 
-    // Ensure directory exists
+
     fs.mkdirSync(baseUploadPath, { recursive: true });
 
     const ffmpegCommand = `ffmpeg -i "${videoPath}" -codec:v libx264 -codec:a aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${baseUploadPath}/segment%03d.ts" -y "${hlsPath}"`;
@@ -45,7 +44,7 @@ export const uploadVideo = async (req, res) => {
         });
       }
       
-      // Verify HLS playlist was created
+      // Verifying HLS playlist was created
       if (!fs.existsSync(hlsPath)) {
         console.error("HLS playlist not found after generation:", hlsPath);
         console.error("Directory contents:", fs.readdirSync(baseUploadPath));
