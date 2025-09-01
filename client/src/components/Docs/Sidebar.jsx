@@ -1,19 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ToggleTheme } from '../../context/UserContext';
-import { BookOpen, Download, Code, Server, Users, HelpCircle, Menu, X } from 'lucide-react';
+import { BookOpen, Download, Code, Server, Users, HelpCircle, Menu, X, Settings, Zap } from 'lucide-react';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { darkMode } = ToggleTheme();
   
   const navItems = [
     { id: 'introduction', label: 'Introduction', icon: BookOpen },
-    { id: 'installation', label: 'Installation', icon: Download },
-    { id: 'usage', label: 'Usage', icon: Code },
-    { id: 'components', label: 'Components', icon: Server },
-    { id: 'api', label: 'API', icon: Server },
-    { id: 'contributing', label: 'Contributing', icon: Users },
-    { id: 'faq', label: 'FAQ', icon: HelpCircle },
+    { id: 'installation', label: 'Installation & Setup', icon: Download },
+    { id: 'usage', label: 'API Documentation', icon: Code },
+    { id: 'components', label: 'Architecture & Components', icon: Server },
+    { id: 'contributing', label: 'Contributing & Development', icon: Users },
+    { id: 'faq', label: 'FAQ & Troubleshooting', icon: HelpCircle },
   ];
 
   return (
@@ -25,7 +24,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       }`}>
         <div className="sticky top-0 z-10 p-4 bg-opacity-90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">Documentation</h2>
+            <div>
+              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">MediaHub Docs</h2>
+              <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Comprehensive Guide</p>
+            </div>
             <button onClick={toggleSidebar} className="md:hidden p-2">
               <X className="h-5 w-5" />
             </button>
