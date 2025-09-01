@@ -6,18 +6,18 @@ const StatsSection = () => {
   const { darkMode } = ToggleTheme();
 
   const stats = [
-    { icon: <Users className="h-8 w-8" />, stat: "500K+", label: "Active Users" },
-    { icon: <Play className="h-8 w-8" />, stat: "1M+", label: "Videos Uploaded" },
-    { icon: <Zap className="h-8 w-8" />, stat: "100K+", label: "Content Creators" },
-    { icon: <Shield className="h-8 w-8" />, stat: "250+", label: "Countries Served" },
+    { icon: <Users className="w-8 h-8" />, stat: "500K+", label: "Active Users" },
+    { icon: <Play className="w-8 h-8" />, stat: "1M+", label: "Videos Uploaded" },
+    { icon: <Zap className="w-8 h-8" />, stat: "100K+", label: "Content Creators" },
+    { icon: <Shield className="w-8 h-8" />, stat: "250+", label: "Countries Served" },
   ];
 
   return (
     <div className={`py-24 transition-colors duration-200 ${
       darkMode ? 'bg-gray-800' : 'bg-gray-50'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="mb-16 text-center">
           <h2 className={`text-3xl font-extrabold tracking-tight sm:text-4xl ${
             darkMode ? 'text-white' : 'text-gray-900'
           }`}>

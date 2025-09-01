@@ -9,22 +9,22 @@ const HeroSection = () => {
 
   const stats = [
     {
-      icon: <Users className="h-6 w-6" />,
+      icon: <Users className="w-6 h-6" />,
       value: "10M+",
       label: "Active Users",
     },
     {
-      icon: <Play className="h-6 w-6" />,
+      icon: <Play className="w-6 h-6" />,
       value: "1M+",
       label: "Videos Uploaded",
     },
     {
-      icon: <Zap className="h-6 w-6" />,
+      icon: <Zap className="w-6 h-6" />,
       value: "100K+",
       label: "Content Creators",
     },
     {
-      icon: <Shield className="h-6 w-6" />,
+      icon: <Shield className="w-6 h-6" />,
       value: "50+",
       label: "Countries Reached",
     },
@@ -38,15 +38,15 @@ const HeroSection = () => {
     >
       {/* Gradient overlay */}
       <div
-        className={`absolute inset-0 ${
+        className={`absolute ${
           darkMode
             ? "bg-gradient-to-br from-gray-900 to-blue-900 opacity-50"
             : "bg-gradient-to-br from-blue-100 to-blue-200 opacity-75"
         }`}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative px-4 py-20 mx-auto max-w-7xl sm:px-6 lg:px-8 sm:py-24 lg:py-32">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Left column - Main content */}
           <div className="text-center lg:text-left">
             <p
@@ -79,7 +79,7 @@ const HeroSection = () => {
               platform. Join millions of content creators and viewers in a
               vibrant community.
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-col justify-center mt-10 space-y-4 sm:flex-row lg:justify-start sm:space-y-0 sm:space-x-4">
               <button
                 onClick={() => navigate("/video-streaming")}
                 className={`inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm ${
@@ -124,9 +124,9 @@ const HeroSection = () => {
                 muted
                 loop
               />
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-30 flex items-center justify-center">
-                <button className="w-20 h-20 flex items-center justify-center rounded-full bg-white bg-opacity-30 hover:bg-opacity-40 transition-all duration-300 transform hover:scale-110">
-                  <Play className="h-10 w-10 text-white" />
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-30">
+                <button className="flex items-center justify-center w-20 h-20 transition-all duration-300 transform bg-white rounded-full bg-opacity-30 hover:bg-opacity-40 hover:scale-110">
+                  <Play className="w-10 h-10 text-white" />
                 </button>
               </div>
             </div>

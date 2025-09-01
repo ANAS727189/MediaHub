@@ -9,31 +9,29 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Get the project root directory (assuming controllers is in src/controllers)
 const projectRoot = path.resolve(__dirname, "..", "..");
-console.log("Project root:", projectRoot);
-console.log("Controller __dirname:", __dirname);
+// console.log("Project root:", projectRoot);
+// console.log("Controller __dirname:", __dirname);
 
 export const uploadVideo = async (req, res) => {
   try {
     const videoId = uuidv4();
     const videoPath = req.file.path;
     
-    // Use absolute path from project root
     const baseUploadPath = path.join(projectRoot, "uploads", "videos", videoId);
     const hlsPath = path.join(baseUploadPath, "index.m3u8");
     const thumbnailPath = path.join(baseUploadPath, "thumbnail.jpg");
     const framePath = path.join(baseUploadPath, "frame.jpg");
 
-    console.log("Base upload path:", baseUploadPath);
-    console.log("HLS path:", hlsPath);
+    // console.log("Base upload path:", baseUploadPath);
+    // console.log("HLS path:", hlsPath);
 
     // Ensure directory exists
     fs.mkdirSync(baseUploadPath, { recursive: true });
 
     const ffmpegCommand = `ffmpeg -i "${videoPath}" -codec:v libx264 -codec:a aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${baseUploadPath}/segment%03d.ts" -y "${hlsPath}"`;
     
-    console.log("Running FFmpeg command:", ffmpegCommand);
+    // console.log("Running FFmpeg command:", ffmpegCommand);
     
     exec(ffmpegCommand, (error, stdout, stderr) => {
       if (error) {
@@ -52,8 +50,8 @@ export const uploadVideo = async (req, res) => {
         return res.status(500).json({ message: "HLS playlist not generated" });
       }
       
-      console.log("HLS playlist generated successfully:", hlsPath);
-      console.log("Directory contents:", fs.readdirSync(baseUploadPath));
+      // console.log("HLS playlist generated successfully:", hlsPath);
+      // console.log("Directory contents:", fs.readdirSync(baseUploadPath));
 
       // Extract frame for thumbnail
       const ffmpegCommandThumbnail = `ffmpeg -i "${videoPath}" -ss 00:00:02 -vframes 1 -y "${framePath}"`;
@@ -74,8 +72,6 @@ export const uploadVideo = async (req, res) => {
         }
         
         console.log("Frame extracted successfully:", framePath);
-
-        // Process thumbnail with Sharp
         sharp(framePath)
           .resize(640, 360)
           .jpeg({ quality: 80 })
@@ -106,8 +102,7 @@ export const uploadVideo = async (req, res) => {
               
               console.log("Saving video to database:", newVideo);
               await newVideo.save();
-              
-              // Cleanup original uploaded file and frame
+
               if (fs.existsSync(videoPath)) {
                 fs.unlinkSync(videoPath);
                 console.log("Cleaned up original video file");

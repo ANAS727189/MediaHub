@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 8000;
 
-// Check FFmpeg installation
+
 exec('ffmpeg -version', (error, stdout, stderr) => {
   if (error) {
     console.error('FFmpeg is not installed or not accessible:', error);
@@ -33,17 +33,17 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Ensure uploads directory exists
+
 const projectRoot = path.resolve(__dirname, ".."); 
 const uploadsPath = path.join(projectRoot, "uploads");
-console.log("Project root:", projectRoot);
-console.log("Uploads path for static serving:", uploadsPath);
+// console.log("Project root:", projectRoot);
+// console.log("Uploads path for static serving:", uploadsPath);
 if (!fs.existsSync(uploadsPath)) {
   fs.mkdirSync(uploadsPath, { recursive: true });
   console.log("Created uploads directory:", uploadsPath);
 }
 
-// Static file serving with proper headers
+
 app.use("/uploads", express.static(uploadsPath, {
   setHeaders: (res, path) => {
     if (path.endsWith('.m3u8')) {
@@ -56,13 +56,14 @@ app.use("/uploads", express.static(uploadsPath, {
   }
 }));
 
-// Add a test route to check if files are accessible
+
+
 app.get('/test-file/:videoId', (req, res) => {
   const { videoId } = req.params;
   const filePath = path.join(uploadsPath, 'videos', videoId, 'index.m3u8');
   
-  console.log('Checking file:', filePath);
-  console.log('File exists:', fs.existsSync(filePath));
+  // console.log('Checking file:', filePath);
+  // console.log('File exists:', fs.existsSync(filePath));
   
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);
@@ -73,7 +74,6 @@ app.get('/test-file/:videoId', (req, res) => {
       contents: fs.readFileSync(filePath, 'utf8').substring(0, 200)
     });
   } else {
-    // Check if directory exists and list contents
     const dirPath = path.join(uploadsPath, 'videos', videoId);
     const dirExists = fs.existsSync(dirPath);
     const contents = dirExists ? fs.readdirSync(dirPath) : [];
@@ -90,7 +90,7 @@ app.get('/test-file/:videoId', (req, res) => {
 app.get("/health-123", (req, res) => res.status(200).send("Hello World!"));
 app.use("/", mediaRoutes);
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ message: "An unexpected error occurred!" });
@@ -98,6 +98,6 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  console.log(`Uploads directory: ${uploadsPath}`);
-  console.log(`CORS origins: ${JSON.stringify(corsOptions.origin)}`);
+  // console.log(`Uploads directory: ${uploadsPath}`);
+  // console.log(`CORS origins: ${JSON.stringify(corsOptions.origin)}`);
 });

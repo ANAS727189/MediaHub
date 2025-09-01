@@ -7,132 +7,107 @@ const FeatureSection = () => {
 
   const features = [
     {
-      icon: <Video className="w-6 h-6" />,
+      icon: <Video className="w-8 h-8" />,
       title: "High-Quality Streaming",
-      description: "Enjoy 4K video quality with adaptive streaming technology for seamless playback on any device or connection."
+      description: "Experience crystal-clear 4K video quality with adaptive streaming technology that automatically adjusts to your connection for seamless playback on any device."
     },
     {
-      icon: <Shield className="w-6 h-6" />,
+      icon: <Shield className="w-8 h-8" />,
       title: "Advanced Security",
-      description: "Your content is protected with end-to-end encryption and customizable privacy settings for complete control."
+      description: "Your content is protected with enterprise-grade end-to-end encryption and customizable privacy settings, giving you complete control over who sees your content."
     },
     {
-      icon: <BarChart className="w-6 h-6" />,
+      icon: <BarChart className="w-8 h-8" />,
       title: "Detailed Analytics",
-      description: "Track your video performance with comprehensive analytics, including viewer demographics and engagement metrics."
+      description: "Gain deep insights into your video performance with comprehensive analytics, including real-time viewer demographics, engagement metrics, and conversion tracking."
     },
     {
-      icon: <Zap className="w-6 h-6" />,
+      icon: <Zap className="w-8 h-8" />,
       title: "Lightning Fast Uploads",
-      description: "Upload videos quickly with our optimized content delivery network, ensuring rapid processing and distribution."
+      description: "Upload videos at lightning speed with our optimized global content delivery network, ensuring rapid processing and instant distribution worldwide."
     },
     {
-      icon: <Users className="w-6 h-6" />,
+      icon: <Users className="w-8 h-8" />,
       title: "Community Features",
-      description: "Build your audience with interactive comments, likes, and sharing capabilities to grow your viewer base."
+      description: "Build and engage your audience with interactive features like real-time comments, reactions, live chat, and advanced sharing capabilities to grow your viewer base."
     },
     {
-      icon: <Settings className="w-6 h-6" />,
+      icon: <Settings className="w-8 h-8" />,
       title: "Customization Tools",
-      description: "Personalize your video player, thumbnails, and channel appearance to match your brand identity."
+      description: "Personalize every aspect of your video experience with custom player themes, branded thumbnails, and channel appearance to perfectly match your brand identity."
     }
   ];
 
   return (
-    <div className={`${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-24 transition-colors duration-200`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <h2 className={`text-base font-semibold uppercase tracking-wide ${
+    <div className={`py-24 transition-colors duration-200 ${
+      darkMode ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
+      
+      <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="mb-20 text-center">
+          <p className={`text-base font-semibold uppercase tracking-wide ${
             darkMode ? 'text-blue-400' : 'text-blue-600'
           }`}>
             Features
-          </h2>
-          <p className={`mt-2 text-3xl font-extrabold ${
-            darkMode ? 'text-white' : 'text-gray-900'
-          } sm:text-4xl`}>
-            Why Choose VideoStream?
           </p>
-          <p className={`mt-4 max-w-2xl mx-auto text-xl ${
+          <h2 className={`mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+            darkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Why Choose 
+            <span className={`block ${
+              darkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>
+              MediaHub?
+            </span>
+          </h2>
+          <p className={`mt-4 max-w-3xl mx-auto text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
-            Everything you need to create, share, and grow your video content
+            Everything you need to create, share, and grow your video content with professional-grade tools and features
           </p>
         </div>
 
+        {/* Features Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <div 
               key={index}
-              className={`relative p-6 ${
+              className={`group relative p-8 rounded-2xl shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl ${
                 darkMode 
-                  ? 'bg-gray-800 hover:bg-gray-750' 
-                  : 'bg-white hover:bg-gray-50'
-              } rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1`}
+                  ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700' 
+                  : 'bg-white hover:bg-gray-50 border border-gray-100'
+              }`}
             >
-              <div className={`h-12 w-12 rounded-md flex items-center justify-center ${
-                darkMode ? 'bg-blue-500' : 'bg-blue-600'
-              } text-white`}>
+              {/* Icon Container */}
+              <div className={`inline-flex items-center justify-center p-4 rounded-xl shadow-lg ${
+                darkMode 
+                  ? 'bg-gradient-to-br from-blue-500 to-blue-600' 
+                  : 'bg-gradient-to-br from-blue-600 to-blue-700'
+              } text-white group-hover:scale-110 transition-transform duration-300`}>
                 {feature.icon}
               </div>
-              <h3 className={`mt-4 text-lg font-medium ${
+              
+              {/* Content */}
+              <h3 className={`mt-6 text-xl font-bold ${
                 darkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 {feature.title}
               </h3>
-              <p className={`mt-2 text-base ${
-                darkMode ? 'text-gray-300' : 'text-gray-500'
+              <p className={`mt-4 text-base leading-relaxed ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
                 {feature.description}
               </p>
+
+              {/* Hover Effect Border */}
+              <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                darkMode 
+                  ? 'bg-gradient-to-br from-blue-600/20 to-purple-600/20' 
+                  : 'bg-gradient-to-br from-blue-100/50 to-indigo-100/50'
+              }`} />
             </div>
           ))}
-        </div>
-
-        <div className="mt-20">
-          <div className={`relative rounded-2xl ${
-            darkMode ? 'bg-gray-800' : 'bg-white'
-          } shadow-xl overflow-hidden`}>
-            <div className="absolute inset-0">
-              <img 
-                className="h-full w-full object-cover opacity-30"
-                src="/api/placeholder/1200/400" 
-                alt="Video streaming platform interface"
-              />
-              <div className={`absolute inset-0 ${
-                darkMode 
-                  ? 'bg-gradient-to-r from-gray-800 to-blue-900' 
-                  : 'bg-gradient-to-r from-blue-100 to-blue-200'
-              } mix-blend-multiply`} />
-            </div>
-            <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-              <h2 className={`text-center text-4xl font-extrabold ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              } tracking-tight sm:text-5xl lg:text-6xl`}>
-                Take your content to the next level
-              </h2>
-              <p className="mt-6 max-w-lg mx-auto text-center text-xl text-gray-300 sm:max-w-3xl">
-                Join thousands of content creators who trust VideoStream for their streaming needs
-              </p>
-              <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5">
-                  <a href="#" className={`flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm ${
-                    darkMode 
-                      ? 'text-gray-900 bg-white hover:bg-gray-100' 
-                      : 'text-white bg-blue-600 hover:bg-blue-700'
-                  } transition duration-150`}>
-                    Get Started
-                  </a>
-                  <a href="#" className={`flex items-center justify-center px-4 py-3 border text-base font-medium rounded-md shadow-sm ${
-                    darkMode 
-                      ? 'border-gray-300 text-white bg-transparent hover:bg-gray-700' 
-                      : 'border-blue-600 text-blue-600 bg-transparent hover:bg-blue-50'
-                  } transition duration-150`}>
-                    Learn More
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import Navbar from "./components/Layout/Navbar";
 import Footer from "./components/Layout/Footer";
 import HomePage from "./components/HomePage/HomePage";
 import Docs from "./components/Docs/Docs";
-import VideoStreaming from "./components/StreamingPage/VideoStreaming";
+import VideoStreamingNew from "./components/StreamingPage/VideoStreaming";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 import { UserProvider } from "./context/UserContext";
 import { SignIn, useUser } from "@clerk/clerk-react";
@@ -16,7 +16,6 @@ function PrivateRoute({ children }) {
   if (!isSignedIn) {
     return <Navigate to="/sign-in" replace />;
   }
-
   return children;
 }
 
@@ -53,7 +52,7 @@ function App() {
                 path="/video-streaming"
                 element={
                   <PrivateRoute>
-                    <VideoStreaming />
+                    <VideoStreamingNew />
                   </PrivateRoute>
                 }
               />
