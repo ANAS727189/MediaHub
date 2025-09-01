@@ -12,10 +12,6 @@
 
 🚀 **A comprehensive platform for video streaming, media editing, and content management**
 
-[🌟 Features](#features) • [🚀 Quick Start](#quick-start) • [📖 Documentation](#documentation) • [🛠️ Tech Stack](#tech-stack) • [🤝 Contributing](#contributing)
-
-![MediaHub Demo](https://res.cloudinary.com/demo/image/upload/w_800,q_auto,f_auto/mediahub-demo.jpg)
-
 </div>
 
 ---
