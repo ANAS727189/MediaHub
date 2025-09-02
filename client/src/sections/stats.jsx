@@ -6,10 +6,10 @@ const StatsSection = () => {
   const { darkMode } = ToggleTheme();
 
   const stats = [
-    { icon: <Users className="w-8 h-8" />, stat: "500K+", label: "Active Users" },
-    { icon: <Play className="w-8 h-8" />, stat: "1M+", label: "Videos Uploaded" },
-    { icon: <Zap className="w-8 h-8" />, stat: "100K+", label: "Content Creators" },
-    { icon: <Shield className="w-8 h-8" />, stat: "250+", label: "Countries Served" },
+    { icon: <Users className="w-8 h-8" />, stat: "15+", label: "Editing Tools" },
+    { icon: <Play className="w-8 h-8" />, stat: "Multiple", label: "Format Support" },
+    { icon: <Zap className="w-8 h-8" />, stat: "AI", label: "Powered Features" },
+    { icon: <Shield className="w-8 h-8" />, stat: "Cloud", label: "Based Processing" },
   ];
 
   return (
@@ -21,12 +21,12 @@ const StatsSection = () => {
           <h2 className={`text-3xl font-extrabold tracking-tight sm:text-4xl ${
             darkMode ? 'text-white' : 'text-gray-900'
           }`}>
-            Our Global Impact
+            Comprehensive Media Tools
           </h2>
           <p className={`mt-4 max-w-2xl mx-auto text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
-            Empowering creators and viewers worldwide
+            Professional-grade capabilities for all your media processing needs
           </p>
         </div>
         

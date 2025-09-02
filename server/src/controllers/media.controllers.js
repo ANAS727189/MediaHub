@@ -154,3 +154,112 @@ export const getVideoById = async (req, res) => {
     res.status(500).json({ message: "Error fetching video" });
   }
 };
+
+export const checkVideoIntegrity = async (req, res) => {
+  try {
+    const videos = await Video.find();
+    const integrity = [];
+    
+    for (const video of videos) {
+      // Extract video ID from the video path
+      const videoId = video.videoPath.split('/')[3]; // /uploads/videos/{videoId}/index.m3u8
+      const videoDir = path.join(projectRoot, "uploads", "videos", videoId);
+      const hlsFile = path.join(videoDir, "index.m3u8");
+      const thumbnailFile = path.join(videoDir, "thumbnail.jpg");
+      
+      const videoExists = fs.existsSync(hlsFile);
+      const thumbnailExists = fs.existsSync(thumbnailFile);
+      const dirExists = fs.existsSync(videoDir);
+      
+      let dirContents = [];
+      if (dirExists) {
+        try {
+          dirContents = fs.readdirSync(videoDir);
+        } catch (err) {
+          console.error(`Error reading directory ${videoDir}:`, err);
+        }
+      }
+      
+      integrity.push({
+        videoId: video._id,
+        title: video.title,
+        videoPath: video.videoPath,
+        thumbnailPath: video.thumbnailPath,
+        extractedVideoId: videoId,
+        dirExists,
+        videoExists,
+        thumbnailExists,
+        dirContents,
+        status: videoExists && thumbnailExists ? 'GOOD' : 'MISSING_FILES'
+      });
+    }
+    
+    const goodVideos = integrity.filter(v => v.status === 'GOOD').length;
+    const brokenVideos = integrity.filter(v => v.status === 'MISSING_FILES').length;
+    
+    res.status(200).json({
+      summary: {
+        total: videos.length,
+        good: goodVideos,
+        broken: brokenVideos
+      },
+      details: integrity
+    });
+  } catch (err) {
+    console.error("Error checking video integrity:", err);
+    res.status(500).json({ message: "Error checking video integrity", details: err.message });
+  }
+};
+
+export const cleanupOrphanedRecords = async (req, res) => {
+  try {
+    const videos = await Video.find();
+    const orphanedRecords = [];
+    
+    for (const video of videos) {
+      // Extract video ID from the video path
+      const videoId = video.videoPath.split('/')[3]; // /uploads/videos/{videoId}/index.m3u8
+      const videoDir = path.join(projectRoot, "uploads", "videos", videoId);
+      const hlsFile = path.join(videoDir, "index.m3u8");
+      
+      const videoExists = fs.existsSync(hlsFile);
+      
+      if (!videoExists) {
+        orphanedRecords.push(video);
+      }
+    }
+    
+    // Only proceed with deletion if user confirms (you can add a query parameter for confirmation)
+    const confirmDelete = req.query.confirm === 'true';
+    
+    if (confirmDelete) {
+      const deletedIds = [];
+      for (const orphanedVideo of orphanedRecords) {
+        await Video.findByIdAndDelete(orphanedVideo._id);
+        deletedIds.push(orphanedVideo._id);
+        console.log(`Deleted orphaned record: ${orphanedVideo.title} (${orphanedVideo._id})`);
+      }
+      
+      res.status(200).json({
+        message: `Cleaned up ${deletedIds.length} orphaned records`,
+        deletedRecords: orphanedRecords.map(v => ({
+          id: v._id,
+          title: v.title,
+          videoPath: v.videoPath
+        }))
+      });
+    } else {
+      res.status(200).json({
+        message: `Found ${orphanedRecords.length} orphaned records (use ?confirm=true to delete them)`,
+        orphanedRecords: orphanedRecords.map(v => ({
+          id: v._id,
+          title: v.title,
+          videoPath: v.videoPath
+        }))
+      });
+    }
+  } catch (err) {
+    console.error("Error cleaning up orphaned records:", err);
+    res.status(500).json({ message: "Error cleaning up orphaned records", details: err.message });
+  }
+};

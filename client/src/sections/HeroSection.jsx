@@ -10,23 +10,23 @@ const HeroSection = () => {
   const stats = [
     {
       icon: <Users className="w-6 h-6" />,
-      value: "10M+",
-      label: "Active Users",
+      value: "15+",
+      label: "Editing Tools",
     },
     {
       icon: <Play className="w-6 h-6" />,
-      value: "1M+",
-      label: "Videos Uploaded",
+      value: "HLS",
+      label: "Streaming Ready",
     },
     {
       icon: <Zap className="w-6 h-6" />,
-      value: "100K+",
-      label: "Content Creators",
+      value: "AI",
+      label: "Powered Tools",
     },
     {
       icon: <Shield className="w-6 h-6" />,
-      value: "50+",
-      label: "Countries Reached",
+      value: "100%",
+      label: "Secure Processing",
     },
   ];
 
@@ -61,13 +61,13 @@ const HeroSection = () => {
                 darkMode ? "text-white" : "text-gray-900"
               } tracking-tight`}
             >
-              Revolutionize Your
+              Professional Media
               <span
                 className={`block ${
                   darkMode ? "text-blue-400" : "text-blue-600"
                 }`}
               >
-                Video Experience
+                Processing Platform
               </span>
             </h1>
             <p
@@ -75,20 +75,19 @@ const HeroSection = () => {
                 darkMode ? "text-gray-300" : "text-gray-500"
               }`}
             >
-              Stream, create, and share amazing videos with our cutting-edge
-              platform. Join millions of content creators and viewers in a
-              vibrant community.
+              Transform, edit, and optimize your images and videos with our powerful suite of 
+              AI-powered tools. From format conversion to advanced editing, all in one platform.
             </p>
             <div className="flex flex-col justify-center mt-10 space-y-4 sm:flex-row lg:justify-start sm:space-y-0 sm:space-x-4">
               <button
-                onClick={() => navigate("/video-streaming")}
+                onClick={() => navigate("/media")}
                 className={`inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm ${
                   darkMode
                     ? "text-gray-900 bg-white hover:bg-gray-100"
                     : "text-white bg-blue-600 hover:bg-blue-700"
                 } transition duration-150`}
               >
-                <span>Get Started</span>
+                <span>Start Editing</span>
                 <lord-icon
                   src="https://cdn.lordicon.com/wsaaegar.json"
                   trigger="hover"
@@ -98,14 +97,14 @@ const HeroSection = () => {
                 />
               </button>
               <button
-                onClick={() => navigate("/docs")}
+                onClick={() => navigate("/video-streaming")}
                 className={`inline-flex items-center px-8 py-3 border text-base font-medium rounded-md shadow-sm ${
                   darkMode
                     ? "border-gray-300 text-white bg-transparent hover:bg-gray-700"
                     : "border-blue-600 text-blue-600 bg-transparent hover:bg-blue-50"
                 } transition duration-150`}
               >
-                Learn More
+                Try Streaming
               </button>
             </div>
           </div>

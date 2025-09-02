@@ -8,33 +8,33 @@ const FeatureSection = () => {
   const features = [
     {
       icon: <Video className="w-8 h-8" />,
-      title: "High-Quality Streaming",
-      description: "Experience crystal-clear 4K video quality with adaptive streaming technology that automatically adjusts to your connection for seamless playback on any device."
+      title: "Advanced Video Processing",
+      description: "Professional video editing with HLS streaming, trimming, speed control, audio manipulation, and real-time thumbnail generation using FFmpeg technology."
     },
     {
       icon: <Shield className="w-8 h-8" />,
-      title: "Advanced Security",
-      description: "Your content is protected with enterprise-grade end-to-end encryption and customizable privacy settings, giving you complete control over who sees your content."
+      title: "Image Transformation Suite",
+      description: "Complete image editing toolkit including resize, crop, compress, rotate, effects, watermarking, and AI-powered upscaling for professional results."
     },
     {
       icon: <BarChart className="w-8 h-8" />,
-      title: "Detailed Analytics",
-      description: "Gain deep insights into your video performance with comprehensive analytics, including real-time viewer demographics, engagement metrics, and conversion tracking."
+      title: "Format Conversion Hub",
+      description: "Convert between multiple formats - JPG to PNG, WebP optimization, video format conversion, and image-to-PDF generation with optimized compression."
     },
     {
       icon: <Zap className="w-8 h-8" />,
-      title: "Lightning Fast Uploads",
-      description: "Upload videos at lightning speed with our optimized global content delivery network, ensuring rapid processing and instant distribution worldwide."
+      title: "Cloud-Powered Processing",
+      description: "Harness Cloudinary's powerful APIs for lightning-fast media transformations with global CDN delivery and enterprise-grade reliability."
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Community Features",
-      description: "Build and engage your audience with interactive features like real-time comments, reactions, live chat, and advanced sharing capabilities to grow your viewer base."
+      title: "User-Friendly Interface",
+      description: "Intuitive drag-and-drop interface with real-time preview, batch processing capabilities, and seamless workflow management for all skill levels."
     },
     {
       icon: <Settings className="w-8 h-8" />,
-      title: "Customization Tools",
-      description: "Personalize every aspect of your video experience with custom player themes, branded thumbnails, and channel appearance to perfectly match your brand identity."
+      title: "Professional Features",
+      description: "Advanced tools including batch processing, custom watermarks, quality optimization, secure file handling, and comprehensive export options."
     }
   ];
 
@@ -64,7 +64,7 @@ const FeatureSection = () => {
           <p className={`mt-4 max-w-3xl mx-auto text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
-            Everything you need to create, share, and grow your video content with professional-grade tools and features
+            Professional media processing tools powered by cutting-edge technology and cloud infrastructure
           </p>
         </div>
 

@@ -2,33 +2,42 @@ import { VideoCard } from './VideoCard';
 import { Film, Headset } from 'lucide-react';
 import { ToggleTheme } from "../../context/UserContext";
 import recommendedVideos from '../../assets/data/recommendedVideos';
+import { checkVideoFileExists, formatVideoErrorMessage } from '../../utils/videoIntegrity';
 
 export const VideoGallery = ({ videos, onVideoSelect }) => {
   const { darkMode } = ToggleTheme();
 
-  const handleVideoSelect = (video) => {
+  const handleVideoSelect = async (video) => {
     const videoUrl = `${import.meta.env.VITE_BACKEND_URI}${video.videoPath}`;
     console.log("Selecting video:", video.title);
     console.log("Video path from DB:", video.videoPath);
     console.log("Backend URI:", import.meta.env.VITE_BACKEND_URI);
     console.log("Full video URL:", videoUrl);
     
-    // Test if the file exists before selecting
-    fetch(videoUrl, { method: 'HEAD' })
-      .then(response => {
-        console.log("Video file check response:", response.status);
-        if (response.ok) {
+    // Check if the video file exists
+    const checkResult = await checkVideoFileExists(videoUrl);
+    console.log("Video file check result:", checkResult);
+    
+    if (checkResult.exists) {
+      console.log("✅ Video file accessible, loading...");
+      onVideoSelect(videoUrl);
+    } else {
+      console.error("❌ Video file not accessible:", checkResult);
+      
+      if (checkResult.error) {
+        // Network error case
+        const errorMessage = formatVideoErrorMessage(video, checkResult);
+        const tryAnyway = confirm(errorMessage);
+        if (tryAnyway) {
+          console.log("🔄 User chose to try loading video despite network error");
           onVideoSelect(videoUrl);
-        } else {
-          console.error("Video file not accessible:", response.status, response.statusText);
-          alert(`Video file not found: ${response.status} ${response.statusText}`);
         }
-      })
-      .catch(error => {
-        console.error("Error checking video file:", error);
-        // Try to select anyway in case it's a CORS issue
-        onVideoSelect(videoUrl);
-      });
+      } else {
+        // File not found case
+        const errorMessage = formatVideoErrorMessage(video, checkResult);
+        alert(errorMessage);
+      }
+    }
   };
 
   return (

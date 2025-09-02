@@ -7,29 +7,29 @@ const TestimonialsSection = () => {
   
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "Content Creator",
-      company: "@SarahCreates",
+      name: "Alex Thompson",
+      role: "Digital Content Creator",
+      company: "@AlexCreates",
       photo: "",
-      quote: "MediaHub has completely transformed how I connect with my audience. The streaming quality is exceptional, and the analytics help me understand what content resonates most with my viewers.",
+      quote: "MediaHub's image editing tools are incredibly powerful. The AI upscaling and format conversion features have streamlined my workflow significantly. Perfect for content creators!",
       rating: 5,
       verified: true
     },
     {
-      name: "Marcus Chen",
-      role: "Marketing Director",
-      company: "TechFlow Inc.",
+      name: "Maria Rodriguez",
+      role: "Web Developer",
+      company: "DevStudio Pro",
       photo: "",
-      quote: "The professional features and security options make MediaHub perfect for our corporate training videos. The customization options allow us to maintain our brand identity seamlessly.",
+      quote: "The video processing capabilities are impressive. HLS streaming works flawlessly and the batch processing saves me hours. The Cloudinary integration is a game-changer.",
       rating: 5,
       verified: true
     },
     {
-      name: "Emma Rodriguez",
-      role: "Online Educator",
-      company: "EduStream Academy",
+      name: "James Wilson",
+      role: "Photographer",
+      company: "Wilson Photography",
       photo: "",
-      quote: "As an educator, I need reliable video streaming for my courses. MediaHub's platform is intuitive, fast, and my students love the interactive features. It's been a game-changer for online learning.",
+      quote: "Finally, a platform that handles both images and videos professionally. The compression algorithms are excellent - maintaining quality while reducing file sizes dramatically.",
       rating: 5,
       verified: true
     },
@@ -74,7 +74,7 @@ const TestimonialsSection = () => {
           <p className={`mt-4 max-w-2xl mx-auto text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
-            Hear from creators, businesses, and educators who trust MediaHub
+            Hear from developers, creators, and professionals who trust MediaHub for their media processing needs
           </p>
         </div>
 

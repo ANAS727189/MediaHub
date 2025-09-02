@@ -3,7 +3,7 @@ import { ToggleTheme } from "../context/UserContext";
 import { 
   MonitorPlay, ThumbsUp, Lock, 
   Zap, Palette, Headphones,
-  Users, Share2, BarChart3, ArrowRight
+  Users, Share2, BarChart3, ArrowRight, Play
 } from 'lucide-react';
 
 const BentoGridSection = () => {
@@ -11,49 +11,49 @@ const BentoGridSection = () => {
   
   const features = [
     {
-      title: "High Quality Streaming",
-      description: "Experience crystal-clear HD and 4K video streaming with adaptive bitrate technology that ensures perfect playback quality regardless of your connection speed.",
+      title: "Media Transformation",
+      description: "Powerful Cloudinary-powered media processing with AI upscaling, smart cropping, format conversion, and advanced image/video transformations.",
       icon: <MonitorPlay className="w-8 h-8" />,
       size: "large",
       gradient: "from-purple-500 to-blue-500",
       position: "col-span-1 md:col-span-2 lg:col-span-2"
     },
     {
-      title: "User Friendly",
-      description: "Intuitive interface designed for seamless navigation and effortless content management across all devices.",
-      icon: <ThumbsUp className="w-8 h-8" />,
+      title: "Image Editing Suite",
+      description: "Complete toolkit for image manipulation - resize, crop, compress, rotate, and apply professional effects with precision.",
+      icon: <Palette className="w-8 h-8" />,
       size: "medium",
       gradient: "from-green-500 to-emerald-500",
       position: "col-span-1"
     },
     {
-      title: "Secure Uploads",
-      description: "Enterprise-grade encryption ensures your content remains private and protected with advanced security protocols.",
-      icon: <Lock className="w-8 h-8" />,
+      title: "Video Processing",
+      description: "Advanced video editing with HLS streaming, trimming, audio controls, effects, and real-time thumbnail generation.",
+      icon: <Play className="w-8 h-8" />,
       size: "medium",
       gradient: "from-red-500 to-rose-500",
       position: "col-span-1"
     },
     {
-      title: "Lightning Fast",
-      description: "Advanced CDN integration for rapid video processing and instant playback worldwide with minimal latency.",
+      title: "Format Conversion",
+      description: "Convert between multiple formats - JPG, PNG, WebP, MP4, AVI, and more with optimized compression settings.",
       icon: <Zap className="w-8 h-8" />,
       size: "medium",
       gradient: "from-yellow-500 to-orange-500",
       position: "col-span-1"
     },
     {
-      title: "Advanced Analytics",
-      description: "Comprehensive insights into viewer behavior, engagement patterns, and content performance metrics with real-time data visualization and detailed reporting.",
+      title: "Professional Features",
+      description: "Enterprise-grade tools including watermarking, batch processing, secure file handling, and comprehensive analytics for professional workflows.",
       icon: <BarChart3 className="w-8 h-8" />,
       size: "large",
       gradient: "from-blue-500 to-cyan-500",
       position: "col-span-1 md:col-span-2 lg:col-span-2"
     },
     {
-      title: "Fully Customizable",
-      description: "Personalize player appearance, controls, and playback settings to match your brand perfectly with extensive theming options.",
-      icon: <Palette className="w-8 h-8" />,
+      title: "Cloud Integration",
+      description: "Seamless cloud processing with CDN delivery, ensuring fast performance and reliable media handling worldwide.",
+      icon: <Lock className="w-8 h-8" />,
       size: "medium",
       gradient: "from-indigo-500 to-purple-500",
       position: "col-span-1"
@@ -71,22 +71,22 @@ const BentoGridSection = () => {
           <p className={`text-base font-semibold uppercase tracking-wide ${
             darkMode ? 'text-blue-400' : 'text-blue-600'
           }`}>
-            Explore Our Features
+            Powerful Tools
           </p>
           <h2 className={`mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
             darkMode ? 'text-white' : 'text-gray-900'
           }`}>
-            Everything You Need to
+            Everything You Need for
             <span className={`block ${
               darkMode ? 'text-blue-400' : 'text-blue-600'
             }`}>
-              Succeed
+              Media Processing
             </span>
           </h2>
           <p className={`mt-4 max-w-3xl mx-auto text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
-            Discover the powerful tools and features that make MediaHub the perfect platform for creators and viewers alike
+            From simple edits to complex transformations, our comprehensive suite of tools handles all your media processing needs
           </p>
         </div>
 
