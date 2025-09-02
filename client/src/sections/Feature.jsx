@@ -39,19 +39,19 @@ const FeatureSection = () => {
   ];
 
   return (
-    <div className={`py-24 transition-colors duration-200 ${
+    <div className={`py-16 sm:py-20 lg:py-24 transition-colors duration-200 ${
       darkMode ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
       
       <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-20 text-center">
-          <p className={`text-base font-semibold uppercase tracking-wide ${
+        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
+          <p className={`text-sm sm:text-base font-semibold uppercase tracking-wide ${
             darkMode ? 'text-blue-400' : 'text-blue-600'
           }`}>
             Features
           </p>
-          <h2 className={`mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+          <h2 className={`mt-2 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight ${
             darkMode ? 'text-white' : 'text-gray-900'
           }`}>
             Why Choose 
@@ -61,7 +61,7 @@ const FeatureSection = () => {
               MediaHub?
             </span>
           </h2>
-          <p className={`mt-4 max-w-3xl mx-auto text-xl ${
+          <p className={`mt-4 max-w-3xl mx-auto text-base sm:text-lg lg:text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
             Professional media processing tools powered by cutting-edge technology and cloud infrastructure
@@ -69,32 +69,34 @@ const FeatureSection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <div 
               key={index}
-              className={`group relative p-8 rounded-2xl shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl ${
+              className={`group relative p-6 sm:p-8 rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg sm:shadow-xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl sm:hover:shadow-2xl ${
                 darkMode 
                   ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700' 
                   : 'bg-white hover:bg-gray-50 border border-gray-100'
               }`}
             >
               {/* Icon Container */}
-              <div className={`inline-flex items-center justify-center p-4 rounded-xl shadow-lg ${
+              <div className={`inline-flex items-center justify-center p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-lg ${
                 darkMode 
                   ? 'bg-gradient-to-br from-blue-500 to-blue-600' 
                   : 'bg-gradient-to-br from-blue-600 to-blue-700'
               } text-white group-hover:scale-110 transition-transform duration-300`}>
-                {feature.icon}
+                <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8">
+                  {feature.icon}
+                </div>
               </div>
               
               {/* Content */}
-              <h3 className={`mt-6 text-xl font-bold ${
+              <h3 className={`mt-4 sm:mt-6 text-lg sm:text-xl font-bold ${
                 darkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 {feature.title}
               </h3>
-              <p className={`mt-4 text-base leading-relaxed ${
+              <p className={`mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed ${
                 darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
                 {feature.description}

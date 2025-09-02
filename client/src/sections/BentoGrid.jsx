@@ -61,19 +61,19 @@ const BentoGridSection = () => {
   ];
 
   return (
-    <div className={`py-24 transition-colors duration-200 ${
+    <div className={`py-16 sm:py-20 lg:py-24 transition-colors duration-200 ${
       darkMode ? 'bg-gray-900' : 'bg-white'
     }`}>
 
       <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-16 text-center lg:mb-20">
-          <p className={`text-base font-semibold uppercase tracking-wide ${
+        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
+          <p className={`text-sm sm:text-base font-semibold uppercase tracking-wide ${
             darkMode ? 'text-blue-400' : 'text-blue-600'
           }`}>
             Powerful Tools
           </p>
-          <h2 className={`mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight ${
+          <h2 className={`mt-2 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight ${
             darkMode ? 'text-white' : 'text-gray-900'
           }`}>
             Everything You Need for
@@ -83,7 +83,7 @@ const BentoGridSection = () => {
               Media Processing
             </span>
           </h2>
-          <p className={`mt-4 max-w-3xl mx-auto text-xl ${
+          <p className={`mt-4 max-w-3xl mx-auto text-base sm:text-lg lg:text-xl ${
             darkMode ? 'text-gray-300' : 'text-gray-500'
           }`}>
             From simple edits to complex transformations, our comprehensive suite of tools handles all your media processing needs
@@ -91,16 +91,16 @@ const BentoGridSection = () => {
         </div>
 
         {/* Professional Bento Grid Layout */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6 lg:gap-6">
           {features.map((feature, index) => (
             <div 
               key={index}
-              className={`group relative overflow-hidden rounded-2xl shadow-xl transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl ${
+              className={`group relative overflow-hidden rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg sm:shadow-xl transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl sm:hover:shadow-2xl ${
                 feature.position
               } ${
                 feature.size === 'large' 
-                  ? 'min-h-[400px] lg:min-h-[450px] xl:min-h-[380px]' 
-                  : 'min-h-[320px] lg:min-h-[350px] xl:min-h-[320px]'
+                  ? 'min-h-[280px] sm:min-h-[320px] lg:min-h-[400px] xl:min-h-[380px]' 
+                  : 'min-h-[240px] sm:min-h-[280px] lg:min-h-[320px] xl:min-h-[320px]'
               } ${
                 darkMode 
                   ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700' 
@@ -111,14 +111,16 @@ const BentoGridSection = () => {
               <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-5 transition-opacity duration-500 z-0`} />
               
               {/* Content Container */}
-              <div className="relative z-10 flex flex-col justify-between h-full p-6 lg:p-8">
+              <div className="relative z-10 flex flex-col justify-between h-full p-4 sm:p-6 lg:p-8">
                 {/* Top Section - Icon and Title */}
                 <div className="flex-shrink-0">
-                  <div className={`inline-flex items-center justify-center p-3 lg:p-4 rounded-xl shadow-lg bg-gradient-to-br ${feature.gradient} text-white group-hover:scale-110 transition-transform duration-300`}>
-                    {feature.icon}
+                  <div className={`inline-flex items-center justify-center p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg bg-gradient-to-br ${feature.gradient} text-white group-hover:scale-110 transition-transform duration-300`}>
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8">
+                      {feature.icon}
+                    </div>
                   </div>
                   
-                  <h3 className={`mt-4 lg:mt-6 text-lg lg:text-xl xl:text-2xl font-bold leading-tight ${
+                  <h3 className={`mt-3 sm:mt-4 lg:mt-6 text-base sm:text-lg lg:text-xl xl:text-2xl font-bold leading-tight ${
                     darkMode ? 'text-white' : 'text-gray-900'
                   }`}>
                     {feature.title}
@@ -126,8 +128,8 @@ const BentoGridSection = () => {
                 </div>
 
                 {/* Middle Section - Description */}
-                <div className="flex-grow mt-3 lg:mt-4">
-                  <p className={`text-sm lg:text-base leading-relaxed ${
+                <div className="flex-grow mt-2 sm:mt-3 lg:mt-4">
+                  <p className={`text-xs sm:text-sm lg:text-base leading-relaxed ${
                     darkMode ? 'text-gray-300' : 'text-gray-600'
                   } ${feature.size === 'large' ? 'lg:text-lg' : ''}`}>
                     {feature.description}
@@ -135,20 +137,20 @@ const BentoGridSection = () => {
                 </div>
 
                 {/* Bottom Section - Learn More Link */}
-                <div className="flex-shrink-0 mt-4 lg:mt-6">
-                  <div className={`inline-flex items-center text-sm font-semibold cursor-pointer ${
+                <div className="flex-shrink-0 mt-3 sm:mt-4 lg:mt-6">
+                  <div className={`inline-flex items-center text-xs sm:text-sm font-semibold cursor-pointer ${
                     darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'
                   } transition-colors duration-300`}>
                     Learn more
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 transform group-hover:translate-x-1" />
+                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2 transition-transform duration-300 transform group-hover:translate-x-1" />
                   </div>
                 </div>
 
                 {/* Decorative Elements for Large Cards */}
                 {feature.size === 'large' && (
                   <>
-                    <div className={`absolute -top-4 -right-4 w-24 h-24 lg:w-32 lg:h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl`} />
-                    <div className={`absolute -bottom-4 -left-4 w-16 h-16 lg:w-24 lg:h-24 bg-gradient-to-tr ${feature.gradient} opacity-5 rounded-full blur-xl`} />
+                    <div className={`absolute -top-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-32 xl:h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl`} />
+                    <div className={`absolute -bottom-4 -left-4 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-24 xl:h-24 bg-gradient-to-tr ${feature.gradient} opacity-5 rounded-full blur-xl`} />
                   </>
                 )}
               </div>
