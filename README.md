@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![MediaHub Logo](./client/public/mediahub-logo.svg)
+![MediaHub Logo](/video.png)
 
 **Professional Media Management Platform**
 
