@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![MediaHub Logo](https://img.shields.io/badge/MediaHub-Platform-blue?style=for-the-badge&logo=video&logoColor=white)
+![MediaHub Logo](./client/public/mediahub-logo.svg)
 
 **Professional Media Management Platform**
 
