@@ -24,6 +24,20 @@ const VideoStreaming = () => {
     fetchVideos();
   }, []);
 
+  const handleUploadSuccess = (newVideo) => {
+    // Add the new video to the gallery
+    setUploadedVideos(prev => [newVideo, ...prev]);
+    
+    // Play the new video immediately
+    const videoPath = `${import.meta.env.VITE_BACKEND_URI}${newVideo.videoPath}`;
+    setVideoUrl(videoPath);
+  };
+
+  const handleVideoDelete = (videoId) => {
+    // Remove the deleted video from the gallery
+    setUploadedVideos(prev => prev.filter(video => video._id !== videoId));
+  };
+
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -62,13 +76,14 @@ const VideoStreaming = () => {
           </div>
         
           <div className="lg:col-span-1">
-            <UploadForm onUploadSuccess={(url) => setVideoUrl(url)} />
+            <UploadForm onUploadSuccess={handleUploadSuccess} />
           </div>
         </div>
 
         <VideoGallery
           videos={uploadedVideos}
           onVideoSelect={(url) => setVideoUrl(url)}
+          onVideoDelete={handleVideoDelete}
         />
       </div>
     </div>

@@ -10,6 +10,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const projectRoot = path.resolve(__dirname, "..", "..");
+
+// Helper function to extract video duration using ffprobe
+const getVideoDuration = (videoPath) => {
+  return new Promise((resolve, reject) => {
+    const command = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1:noprint_wrappers=1 "${videoPath}"`;
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("FFprobe error:", error);
+        resolve(0); // Return 0 if unable to get duration
+      } else {
+        const duration = Math.round(parseFloat(stdout) || 0);
+        resolve(duration);
+      }
+    });
+  });
+};
 // console.log("Project root:", projectRoot);
 // console.log("Controller __dirname:", __dirname);
 
@@ -91,12 +107,17 @@ export const uploadVideo = async (req, res) => {
             console.log("Thumbnail processed successfully:", thumbnailPath);
 
             try {
+              // Extract video duration
+              const duration = await getVideoDuration(videoPath);
+              
               const newVideo = new Video({
                 title: req.file.originalname,
                 description: req.body.description || "No description",
                 videoPath: `/uploads/videos/${videoId}/index.m3u8`,
                 thumbnailPath: `/uploads/videos/${videoId}/thumbnail.jpg`,
                 uploaderId: req.body.uploaderId || "anonymous",
+                duration: duration,
+                views: 0,
               });
               
               console.log("Saving video to database:", newVideo);
@@ -261,5 +282,42 @@ export const cleanupOrphanedRecords = async (req, res) => {
   } catch (err) {
     console.error("Error cleaning up orphaned records:", err);
     res.status(500).json({ message: "Error cleaning up orphaned records", details: err.message });
+  }
+};
+
+export const deleteVideo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { uploaderId } = req.body;
+
+    // Find the video
+    const video = await Video.findById(id);
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
+    // Check if the user is the owner of the video
+    if (video.uploaderId !== uploaderId) {
+      return res.status(403).json({ message: "You can only delete your own videos" });
+    }
+
+    // Extract video ID from the video path
+    const videoId = video.videoPath.split('/')[3]; // /uploads/videos/{videoId}/index.m3u8
+    const videoDir = path.join(projectRoot, "uploads", "videos", videoId);
+
+    // Delete the video files from disk
+    if (fs.existsSync(videoDir)) {
+      fs.rmSync(videoDir, { recursive: true, force: true });
+      console.log(`Deleted video directory: ${videoDir}`);
+    }
+
+    // Delete the video record from database
+    await Video.findByIdAndDelete(id);
+    console.log(`Deleted video record: ${video.title} (${id})`);
+
+    res.status(200).json({ message: "Video deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting video:", err);
+    res.status(500).json({ message: "Error deleting video", details: err.message });
   }
 };

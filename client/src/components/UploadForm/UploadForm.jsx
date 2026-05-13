@@ -4,7 +4,7 @@ import { ToggleTheme } from "../../context/UserContext";
 
 
 export const UploadForm = ({ onUploadSuccess }) => {
-  const { darkMode } = ToggleTheme();
+  const { darkMode, userId } = ToggleTheme();
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -19,12 +19,13 @@ export const UploadForm = ({ onUploadSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file || !userId) return;
 
     setUploading(true);
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('description', description); // Send the description along with file
+    formData.append('description', description);
+    formData.append('uploaderId', userId);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/upload`, {
@@ -34,8 +35,17 @@ export const UploadForm = ({ onUploadSuccess }) => {
 
       if (response.ok) {
         const data = await response.json();
-        onUploadSuccess(data.video.videoPath); // Adjust according to returned object
+        onUploadSuccess(data.video); // Pass entire video object
         setUploadSuccess(true);
+        
+        // Clear form fields after successful upload
+        setFile(null);
+        setDescription('');
+        
+        // Reset success message after 3 seconds
+        setTimeout(() => {
+          setUploadSuccess(false);
+        }, 3000);
       }
     } catch (error) {
       console.error('Error uploading video:', error);
@@ -50,6 +60,13 @@ export const UploadForm = ({ onUploadSuccess }) => {
         <Upload className="w-5 h-5 text-blue-500" />
         <h2 className="text-lg font-semibold">Upload Video</h2>
       </div>
+      
+      {uploadSuccess && (
+        <div className="mb-4 p-3 bg-green-100 border border-green-400 rounded-lg flex items-center space-x-2">
+          <CheckCircle className="w-5 h-5 text-green-600" />
+          <span className="text-green-800 font-medium">Video uploaded successfully!</span>
+        </div>
+      )}
       
       <form onSubmit={handleSubmit}>
         <div className={`border-2 border-dashed rounded-lg p-6 text-center ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>

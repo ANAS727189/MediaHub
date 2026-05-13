@@ -9,9 +9,14 @@ import AdminPanel from "./components/AdminPanel/AdminPanel";
 import { UserProvider } from "./context/UserContext";
 import { SignIn, useUser } from "@clerk/clerk-react";
 import MediaEditor from "./components/MediaEditor/MediaEditor";
+import BrandedLoader from "./components/Common/BrandedLoader";
 
 function PrivateRoute({ children }) {
-  const { isSignedIn } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
+
+  if (!isLoaded) {
+    return <BrandedLoader message="Securing your session and loading MediaHub" />;
+  }
 
   if (!isSignedIn) {
     return <Navigate to="/sign-in" replace />;

@@ -17,6 +17,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import { ToggleTheme } from "../../context/UserContext";
+import AppDialog from "../Common/AppDialog";
 
 const AdminPanel = () => {
   const { user } = useUser();
@@ -28,6 +29,16 @@ const AdminPanel = () => {
   const [videoIntegrity, setVideoIntegrity] = useState(null);
   const [checkingIntegrity, setCheckingIntegrity] = useState(false);
   const [cleaningUp, setCleaningUp] = useState(false);
+  const [dialogConfig, setDialogConfig] = useState({
+    open: false,
+    title: '',
+    message: '',
+    variant: 'info',
+    primaryText: 'OK',
+    secondaryText: undefined,
+    onPrimary: null,
+    onSecondary: null,
+  });
 
   useEffect(() => {
     const activities = JSON.parse(localStorage.getItem("activities")) || [];
@@ -49,23 +60,35 @@ const AdminPanel = () => {
       setVideoIntegrity(data);
     } catch (error) {
       console.error('Error checking video integrity:', error);
-      alert('Failed to check video integrity: ' + error.message);
+      setDialogConfig({
+        open: true,
+        title: 'Integrity check failed',
+        message: 'Failed to check video integrity: ' + error.message,
+        variant: 'error',
+        primaryText: 'OK',
+        secondaryText: undefined,
+        onPrimary: () => setDialogConfig((prev) => ({ ...prev, open: false })),
+        onSecondary: null,
+      });
     } finally {
       setCheckingIntegrity(false);
     }
   };
 
-  const cleanupOrphanedRecords = async () => {
+  const runCleanupOrphanedRecords = async () => {
     if (!videoIntegrity || videoIntegrity.summary.broken === 0) {
-      alert('No orphaned records to clean up');
+      setDialogConfig({
+        open: true,
+        title: 'No orphaned records',
+        message: 'No orphaned records to clean up.',
+        variant: 'info',
+        primaryText: 'OK',
+        secondaryText: undefined,
+        onPrimary: () => setDialogConfig((prev) => ({ ...prev, open: false })),
+        onSecondary: null,
+      });
       return;
     }
-
-    const confirmCleanup = confirm(
-      `This will permanently delete ${videoIntegrity.summary.broken} database records for videos whose files are missing. Are you sure?`
-    );
-
-    if (!confirmCleanup) return;
 
     setCleaningUp(true);
     try {
@@ -73,20 +96,71 @@ const AdminPanel = () => {
         method: 'DELETE'
       });
       const data = await response.json();
-      alert(data.message);
+      setDialogConfig({
+        open: true,
+        title: 'Cleanup completed',
+        message: data.message,
+        variant: 'info',
+        primaryText: 'OK',
+        secondaryText: undefined,
+        onPrimary: () => setDialogConfig((prev) => ({ ...prev, open: false })),
+        onSecondary: null,
+      });
       
       // Refresh the integrity check
       await checkVideoIntegrity();
     } catch (error) {
       console.error('Error cleaning up orphaned records:', error);
-      alert('Failed to clean up orphaned records: ' + error.message);
+      setDialogConfig({
+        open: true,
+        title: 'Cleanup failed',
+        message: 'Failed to clean up orphaned records: ' + error.message,
+        variant: 'error',
+        primaryText: 'OK',
+        secondaryText: undefined,
+        onPrimary: () => setDialogConfig((prev) => ({ ...prev, open: false })),
+        onSecondary: null,
+      });
     } finally {
       setCleaningUp(false);
     }
   };
 
+  const cleanupOrphanedRecords = () => {
+    if (!videoIntegrity || videoIntegrity.summary.broken === 0) {
+      runCleanupOrphanedRecords();
+      return;
+    }
+
+    setDialogConfig({
+      open: true,
+      title: 'Confirm cleanup',
+      message: `This will permanently delete ${videoIntegrity.summary.broken} database records for videos whose files are missing.`,
+      variant: 'warning',
+      primaryText: 'Clean Up',
+      secondaryText: 'Cancel',
+      onPrimary: async () => {
+        setDialogConfig((prev) => ({ ...prev, open: false }));
+        await runCleanupOrphanedRecords();
+      },
+      onSecondary: () => setDialogConfig((prev) => ({ ...prev, open: false })),
+    });
+  };
+
   return (
     <div className={`min-h-screen p-8 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <AppDialog
+        open={dialogConfig.open}
+        darkMode={darkMode}
+        title={dialogConfig.title}
+        message={dialogConfig.message}
+        variant={dialogConfig.variant}
+        primaryText={dialogConfig.primaryText}
+        secondaryText={dialogConfig.secondaryText}
+        onPrimary={dialogConfig.onPrimary || (() => {})}
+        onSecondary={dialogConfig.onSecondary || (() => {})}
+      />
+
       <div className="max-w-7xl mx-auto">
         <h1 className={`text-3xl font-bold mb-8 flex items-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           <User className="mr-2 h-8 w-8 text-indigo-500" />

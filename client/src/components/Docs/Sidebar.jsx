@@ -17,7 +17,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   return (
     <div className={`fixed md:relative z-30 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out`}>
-      <div className={`w-64 h-screen overflow-y-auto border-r transition duration-300 ${
+      <div className={`w-64 h-full border-r transition duration-300 ${
         darkMode 
           ? 'bg-gray-900 text-gray-200 border-gray-700' 
           : 'bg-white text-gray-800 border-gray-200'
@@ -25,7 +25,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="sticky top-0 z-10 p-4 bg-opacity-90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">MediaHub Docs</h2>
+              <h2 className="text-xl font-bold text-blue-600">MediaHub Docs</h2>
               <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Comprehensive Guide</p>
             </div>
             <button onClick={toggleSidebar} className="md:hidden p-2">

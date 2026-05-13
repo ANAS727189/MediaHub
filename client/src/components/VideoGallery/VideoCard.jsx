@@ -1,15 +1,33 @@
-import { Play, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { Play, Clock, Trash2 } from 'lucide-react';
 import { ToggleTheme } from "../../context/UserContext";
+import ConfirmTooltip from '../Common/ConfirmTooltip';
 
 
-export const VideoCard = ({ thumbnail, title, views, duration, onClick }) => {
+export const VideoCard = ({ thumbnail, title, views, duration, onClick, onDelete, isUserVideo }) => {
   const { darkMode } = ToggleTheme();
+  const [showDeleteTooltip, setShowDeleteTooltip] = useState(false);
   
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    setShowDeleteTooltip(true);
+  };
+
+  const handleCancelDelete = (e) => {
+    if (e) e.stopPropagation();
+    setShowDeleteTooltip(false);
+  };
+
+  const handleConfirmDelete = (e) => {
+    e.stopPropagation();
+    setShowDeleteTooltip(false);
+    if (onDelete) onDelete();
+  };
   
   return (
     <div 
       onClick={onClick}
-      className={`rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 ${
+      className={`rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 relative ${
         darkMode ? 'bg-gray-800' : 'bg-white'
       }`}
     >
@@ -28,6 +46,27 @@ export const VideoCard = ({ thumbnail, title, views, duration, onClick }) => {
             <Play className="w-16 h-16 text-white" fill="white" />
           </div>
         </div>
+        {isUserVideo && (
+          <>
+            <button
+              onClick={handleDelete}
+              className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition-colors duration-200"
+              title="Delete video"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+            <ConfirmTooltip
+              open={showDeleteTooltip}
+              title="Delete this video?"
+              message="This removes the video from your gallery and storage."
+              confirmText="Delete"
+              cancelText="Cancel"
+              onConfirm={handleConfirmDelete}
+              onCancel={handleCancelDelete}
+              darkMode={darkMode}
+            />
+          </>
+        )}
       </div>
       <div className="p-4">
         <h3 className="font-bold text-lg mb-2 line-clamp-2">{title}</h3>

@@ -9,7 +9,7 @@ const Docs = () => {
   const { darkMode } = ToggleTheme();
 
   return (
-    <div className={`h-screen flex flex-col ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Mobile Header */}
       <div className={`md:hidden flex items-center justify-between p-4 border-b ${
         darkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
@@ -27,7 +27,7 @@ const Docs = () => {
         </button>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         {/* Sidebar */}
         <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
 
@@ -40,7 +40,7 @@ const Docs = () => {
         )}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1">
           <Content />
         </div>
       </div>

@@ -30,7 +30,7 @@ const Content = () => {
     </div>
   );
 
-  const FeatureCard = ({ icon: Icon, title, description, status = "✅" }) => (
+  const FeatureCard = ({ icon: Icon, title, description, status = "Active" }) => (
     <div className={`p-4 rounded-lg border ${
       darkMode 
         ? 'bg-gray-800 border-gray-700 hover:border-gray-600' 
@@ -53,7 +53,7 @@ const Content = () => {
     }`}>
       <div className="max-w-4xl mx-auto p-8">
         <div className="mb-12">
-          <h1 className="text-5xl font-extrabold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-extrabold mb-6 text-blue-600">
             MediaHub Documentation
           </h1>
           <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
@@ -99,13 +99,13 @@ const Content = () => {
 
           <h3 className="text-xl font-bold mb-4">Key Features</h3>
           <ul className="list-disc list-inside space-y-2 mb-6">
-            <li>🎥 <strong>HLS Video Streaming</strong> - Adaptive bitrate streaming with FFmpeg processing</li>
-            <li>🖼️ <strong>Media Editor</strong> - Professional image and video editing capabilities</li>
-            <li>🔄 <strong>Format Conversion</strong> - Support for 15+ image and video formats</li>
-            <li>📊 <strong>Analytics</strong> - Real-time view tracking and engagement metrics</li>
-            <li>🔐 <strong>Authentication</strong> - Secure user management with Clerk</li>
-            <li>📱 <strong>Responsive Design</strong> - Optimized for all devices and screen sizes</li>
-            <li>🌓 <strong>Theme Support</strong> - Dark and light mode with system detection</li>
+            <li><strong>HLS Video Streaming</strong> - Adaptive bitrate streaming with FFmpeg processing</li>
+            <li><strong>Media Editor</strong> - Professional image and video editing capabilities</li>
+            <li><strong>Format Conversion</strong> - Support for 15+ image and video formats</li>
+            <li><strong>Analytics</strong> - Real-time view tracking and engagement metrics</li>
+            <li><strong>Authentication</strong> - Secure user management with Clerk</li>
+            <li><strong>Responsive Design</strong> - Optimized for all devices and screen sizes</li>
+            <li><strong>Theme Support</strong> - Dark and light mode with system detection</li>
           </ul>
         </Section>
 
@@ -176,7 +176,7 @@ npm run dev
 
         <div className={`mt-8 p-4 rounded-lg ${darkMode ? 'bg-green-900/30' : 'bg-green-50'} border ${darkMode ? 'border-green-800' : 'border-green-200'}`}>
           <p className="text-sm">
-            ✅ <strong>Success!</strong> Your MediaHub application should now be running:
+            <strong>Setup complete.</strong> Your MediaHub application should now be running:
           </p>
           <ul className="list-disc list-inside mt-2 text-sm space-y-1">
             <li><strong>Frontend:</strong> http://localhost:5173</li>
@@ -325,7 +325,7 @@ npm run dev
             <h3 className="text-xl font-bold mb-4">Backend Services</h3>
             <div className="space-y-4">
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">📁 Media Processing Pipeline</h4>
+                <h4 className="font-bold mb-2">Media Processing Pipeline</h4>
                 <p className="text-sm mb-3">Handles file uploads, format conversion, and optimization using FFmpeg and Sharp</p>
                 <ul className="text-sm space-y-1 list-disc list-inside">
                   <li>Automatic video transcoding to HLS format</li>
@@ -336,7 +336,7 @@ npm run dev
               </div>
 
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🗄️ Database Layer</h4>
+                <h4 className="font-bold mb-2">Database Layer</h4>
                 <p className="text-sm mb-3">MongoDB with structured schemas for scalable data management</p>
                 <ul className="text-sm space-y-1 list-disc list-inside">
                   <li>Media metadata and file references</li>
@@ -347,7 +347,7 @@ npm run dev
               </div>
 
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🔐 Authentication & Security</h4>
+                <h4 className="font-bold mb-2">Authentication & Security</h4>
                 <p className="text-sm mb-3">Clerk-powered authentication with role-based access control</p>
                 <ul className="text-sm space-y-1 list-disc list-inside">
                   <li>JWT token validation and refresh</li>
@@ -487,32 +487,32 @@ npm run format`}</CodeBlock>
             <h3 className="text-xl font-bold mb-4">Areas for Contribution</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🎨 UI/UX Improvements</h4>
+                <h4 className="font-bold mb-2">UI and UX Improvements</h4>
                 <p className="text-sm">Enhance user interface, animations, and overall user experience</p>
               </div>
               
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🔧 Feature Development</h4>
+                <h4 className="font-bold mb-2">Feature Development</h4>
                 <p className="text-sm">Add new editing tools, streaming features, or integrations</p>
               </div>
               
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🐛 Bug Fixes</h4>
+                <h4 className="font-bold mb-2">Bug Fixes</h4>
                 <p className="text-sm">Identify and resolve issues in existing functionality</p>
               </div>
               
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">📚 Documentation</h4>
+                <h4 className="font-bold mb-2">Documentation</h4>
                 <p className="text-sm">Improve guides, API docs, and code comments</p>
               </div>
               
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🚀 Performance</h4>
+                <h4 className="font-bold mb-2">Performance</h4>
                 <p className="text-sm">Optimize loading times, reduce bundle size, improve efficiency</p>
               </div>
               
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <h4 className="font-bold mb-2">🧪 Testing</h4>
+                <h4 className="font-bold mb-2">Testing</h4>
                 <p className="text-sm">Expand test coverage and improve testing infrastructure</p>
               </div>
             </div>
@@ -563,7 +563,7 @@ npm run format`}</CodeBlock>
             <h3 className="text-xl font-bold mb-4">Common Issues & Solutions</h3>
             <div className="space-y-4">
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-red-900/20 border-red-800' : 'bg-red-50 border-red-200'}`}>
-                <h4 className="font-bold mb-2 text-red-600">🚨 Upload fails or times out</h4>
+                <h4 className="font-bold mb-2 text-red-600">Upload fails or times out</h4>
                 <ul className="text-sm space-y-1 list-disc list-inside">
                   <li>Check your internet connection stability</li>
                   <li>Verify file size is within limits</li>
@@ -573,7 +573,7 @@ npm run format`}</CodeBlock>
               </div>
 
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-yellow-900/20 border-yellow-800' : 'bg-yellow-50 border-yellow-200'}`}>
-                <h4 className="font-bold mb-2 text-yellow-600">⚠️ Video won't play or load</h4>
+                <h4 className="font-bold mb-2 text-yellow-600">Video will not play or load</h4>
                 <ul className="text-sm space-y-1 list-disc list-inside">
                   <li>Ensure your browser supports HTML5 video</li>
                   <li>Check if video processing is still in progress</li>
@@ -583,7 +583,7 @@ npm run format`}</CodeBlock>
               </div>
 
               <div className={`p-4 rounded-lg border ${darkMode ? 'bg-blue-900/20 border-blue-800' : 'bg-blue-50 border-blue-200'}`}>
-                <h4 className="font-bold mb-2 text-blue-600">ℹ️ Media editor tools not responding</h4>
+                <h4 className="font-bold mb-2 text-blue-600">Media editor tools not responding</h4>
                 <ul className="text-sm space-y-1 list-disc list-inside">
                   <li>Refresh the page and try again</li>
                   <li>Check browser console for error messages</li>
@@ -598,7 +598,7 @@ npm run format`}</CodeBlock>
             <h3 className="text-xl font-bold mb-4">Getting Help</h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                <h4 className="font-bold mb-2">📧 Support Channels</h4>
+                <h4 className="font-bold mb-2">Support Channels</h4>
                 <ul className="text-sm space-y-1">
                   <li>• GitHub Issues for bug reports</li>
                   <li>• Discord community for discussions</li>
@@ -608,7 +608,7 @@ npm run format`}</CodeBlock>
               </div>
               
               <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                <h4 className="font-bold mb-2">🛠️ Debug Information</h4>
+                <h4 className="font-bold mb-2">Debug Information</h4>
                 <p className="text-sm mb-2">When reporting issues, include:</p>
                 <ul className="text-sm space-y-1">
                   <li>• Browser version and OS</li>

@@ -1,3 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes orbit {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes orbit-reverse {
+	from {
+		transform: rotate(360deg);
+	}
+	to {
+		transform: rotate(0deg);
+	}
+}
+
+@keyframes dot-bounce {
+	0%,
+	80%,
+	100% {
+		transform: translateY(0);
+		opacity: 0.4;
+	}
+	40% {
+		transform: translateY(-6px);
+		opacity: 1;
+	}
+}
+
+.loader-orbit {
+	animation: orbit 4s linear infinite;
+}
+
+.loader-orbit-reverse {
+	animation: orbit-reverse 5.5s linear infinite;
+}
+
+.loader-dot-1 {
+	animation: dot-bounce 1s infinite;
+}
+
+.loader-dot-2 {
+	animation: dot-bounce 1s infinite 0.15s;
+}
+
+.loader-dot-3 {
+	animation: dot-bounce 1s infinite 0.3s;
+}
