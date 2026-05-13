@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /private
+Disallow: /*.json$
+Disallow: /api/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://media-hub-xi.vercel.app/sitemap.xml
+
+# Crawl-delay for general bots to reduce server load
+Crawl-delay: 1
