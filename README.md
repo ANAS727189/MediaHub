@@ -1,6 +1,32 @@
 # MediaHub
 
+<div align="center">
+
+![MediaHub Logo](https://img.shields.io/badge/MediaHub-Platform-blue?style=for-the-badge&logo=video&logoColor=white)
+
+**Professional Media Management Platform**
+
 A comprehensive platform for video streaming, media editing, and content management with professional-grade tools for image and video processing.
+
+### Technology Stack
+
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-20-339933?style=flat&logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-6.0-13AA52?style=flat&logo=mongodb&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-4.0-000000?style=flat&logo=express&logoColor=white)
+![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-007808?style=flat&logo=ffmpeg&logoColor=white)
+
+### Project Status
+
+![License](https://img.shields.io/badge/License-MIT-green?style=flat)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat)
+![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat)
+
+</div>
+
+---
 
 ## Overview
 
