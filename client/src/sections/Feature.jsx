@@ -1,118 +1,151 @@
-import React from 'react';
-import { ToggleTheme } from '../context/UserContext';
-import { Zap, Shield, BarChart, Users, Video, Settings } from 'lucide-react';
+import React from "react";
+import { ToggleTheme } from "../context/UserContext";
+import { Video, Shield, BarChart, Zap, Users, Settings } from "lucide-react";
+
+const features = [
+  {
+    icon: Video,
+    num: "01",
+    title: "Advanced Video Processing",
+    description:
+      "Professional video editing with HLS streaming, precise trimming, speed control, audio manipulation, and real-time thumbnail generation powered by FFmpeg.",
+  },
+  {
+    icon: Shield,
+    num: "02",
+    title: "Image Transformation Suite",
+    description:
+      "Complete image editing — resize, crop, compress, rotate, apply effects, add watermarks, and AI-powered upscaling for professional-grade output.",
+  },
+  {
+    icon: BarChart,
+    num: "03",
+    title: "Format Conversion Hub",
+    description:
+      "Convert between any format: JPG to PNG, WebP optimization, video conversion, and image-to-PDF with optimized compression at every step.",
+  },
+  {
+    icon: Zap,
+    num: "04",
+    title: "Cloud-Powered Processing",
+    description:
+      "Cloudinary APIs deliver lightning-fast media transformations with global CDN and enterprise-grade reliability — no waiting, no local bottlenecks.",
+  },
+  {
+    icon: Users,
+    num: "05",
+    title: "Intuitive Interface",
+    description:
+      "Drag-and-drop workflow with real-time preview, batch processing, and smooth interactions designed for both beginners and professionals.",
+  },
+  {
+    icon: Settings,
+    num: "06",
+    title: "Professional Toolset",
+    description:
+      "Batch processing, custom watermarks, quality optimization, secure file handling, and comprehensive export options for every use case.",
+  },
+];
+
+const FeatureCard = ({ feature, darkMode }) => {
+  const Icon = feature.icon;
+
+  return (
+    <div
+      className={`group relative p-6 lg:p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
+        darkMode
+          ? "bg-[#12151F] border-gray-800 hover:border-gray-700"
+          : "bg-white border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md"
+      }`}
+    >
+      {/* Number + icon row */}
+      <div className="flex items-start justify-between mb-5">
+        <div
+          className={`flex items-center justify-center w-11 h-11 rounded-xl border ${
+            darkMode
+              ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
+              : "bg-blue-50 border-blue-100 text-blue-600"
+          }`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
+        <span
+          className={`font-display text-2xl font-bold tabular-nums tracking-tight ${
+            darkMode ? "text-gray-800" : "text-gray-200"
+          }`}
+        >
+          {feature.num}
+        </span>
+      </div>
+
+      <h3
+        className={`font-display text-lg font-bold leading-snug ${
+          darkMode ? "text-white" : "text-gray-950"
+        }`}
+      >
+        {feature.title}
+      </h3>
+
+      <p
+        className={`mt-3 text-sm leading-relaxed ${
+          darkMode ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
+        {feature.description}
+      </p>
+
+      {/* Hover accent line */}
+      <div className="absolute inset-x-0 bottom-0 h-px transition-opacity duration-300 opacity-0 bg-gradient-to-r from-transparent via-blue-500/40 to-transparent group-hover:opacity-100 rounded-b-2xl" />
+    </div>
+  );
+};
 
 const FeatureSection = () => {
   const { darkMode } = ToggleTheme();
 
-  const features = [
-    {
-      icon: <Video className="w-8 h-8" />,
-      title: "Advanced Video Processing",
-      description: "Professional video editing with HLS streaming, trimming, speed control, audio manipulation, and real-time thumbnail generation using FFmpeg technology."
-    },
-    {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Image Transformation Suite",
-      description: "Complete image editing toolkit including resize, crop, compress, rotate, effects, watermarking, and AI-powered upscaling for professional results."
-    },
-    {
-      icon: <BarChart className="w-8 h-8" />,
-      title: "Format Conversion Hub",
-      description: "Convert between multiple formats - JPG to PNG, WebP optimization, video format conversion, and image-to-PDF generation with optimized compression."
-    },
-    {
-      icon: <Zap className="w-8 h-8" />,
-      title: "Cloud-Powered Processing",
-      description: "Harness Cloudinary's powerful APIs for lightning-fast media transformations with global CDN delivery and enterprise-grade reliability."
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "User-Friendly Interface",
-      description: "Intuitive drag-and-drop interface with real-time preview, batch processing capabilities, and seamless workflow management for all skill levels."
-    },
-    {
-      icon: <Settings className="w-8 h-8" />,
-      title: "Professional Features",
-      description: "Advanced tools including batch processing, custom watermarks, quality optimization, secure file handling, and comprehensive export options."
-    }
-  ];
-
   return (
-    <div className={`py-16 sm:py-20 lg:py-24 transition-colors duration-200 ${
-      darkMode ? 'bg-gray-900' : 'bg-gray-50'
-    }`}>
-      
-      <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
-          <p className={`text-sm sm:text-base font-semibold uppercase tracking-wide ${
-            darkMode ? 'text-blue-400' : 'text-blue-600'
-          }`}>
+    <section
+      className={`py-24 lg:py-32 transition-colors duration-200 ${
+        darkMode ? "bg-[#0D0F18]" : "bg-white"
+      }`}
+    >
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
+
+        {/* Section header */}
+        <div className="text-center mb-14 lg:mb-16">
+          <p
+            className={`text-xs font-semibold tracking-[0.14em] uppercase ${
+              darkMode ? "text-blue-400" : "text-blue-600"
+            }`}
+          >
             Features
           </p>
-          <h2 className={`mt-2 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight ${
-            darkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Why Choose 
-            <span className={`block ${
-              darkMode ? 'text-blue-400' : 'text-blue-600'
-            }`}>
-              MediaHub?
-            </span>
+          <h2
+            className={`font-display mt-3 text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight ${
+              darkMode ? "text-white" : "text-gray-950"
+            }`}
+          >
+            Why Choose{" "}
+            <span className="text-blue-500">MediaHub?</span>
           </h2>
-          <p className={`mt-4 max-w-3xl mx-auto text-base sm:text-lg lg:text-xl ${
-            darkMode ? 'text-gray-300' : 'text-gray-500'
-          }`}>
-            Professional media processing tools powered by cutting-edge technology and cloud infrastructure
+          <p
+            className={`mt-4 max-w-2xl mx-auto text-base lg:text-lg ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+            Professional media processing tools powered by cutting-edge
+            technology and cloud infrastructure.
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <div 
-              key={index}
-              className={`group relative p-6 sm:p-8 rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg sm:shadow-xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl sm:hover:shadow-2xl ${
-                darkMode 
-                  ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700' 
-                  : 'bg-white hover:bg-gray-50 border border-gray-100'
-              }`}
-            >
-              {/* Icon Container */}
-              <div className={`inline-flex items-center justify-center p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-lg ${
-                darkMode 
-                  ? 'bg-gradient-to-br from-blue-500 to-blue-600' 
-                  : 'bg-gradient-to-br from-blue-600 to-blue-700'
-              } text-white group-hover:scale-110 transition-transform duration-300`}>
-                <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8">
-                  {feature.icon}
-                </div>
-              </div>
-              
-              {/* Content */}
-              <h3 className={`mt-4 sm:mt-6 text-lg sm:text-xl font-bold ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>
-                {feature.title}
-              </h3>
-              <p className={`mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-                {feature.description}
-              </p>
-
-              {/* Hover Effect Border */}
-              <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                darkMode 
-                  ? 'bg-gradient-to-br from-blue-600/20 to-purple-600/20' 
-                  : 'bg-gradient-to-br from-blue-100/50 to-indigo-100/50'
-              }`} />
-            </div>
+        {/* Features grid */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          {features.map((feature, i) => (
+            <FeatureCard key={i} feature={feature} darkMode={darkMode} />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

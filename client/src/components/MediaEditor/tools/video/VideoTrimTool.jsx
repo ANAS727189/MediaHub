@@ -218,7 +218,7 @@ const VideoTrimTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
+        <>
         {!mediaUrl ? (
             <MediaUploader
             uploading={uploading}
@@ -227,6 +227,7 @@ const VideoTrimTool = ({
             supportedFormats="Videos (MP4, WebM, AVI, MOV)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             <video
                 ref={videoRef}
@@ -276,8 +277,9 @@ const VideoTrimTool = ({
                 </div>
             )}
             </div>
+            </div>
         )}
-        </div>
+        </>
     );
 
     return (

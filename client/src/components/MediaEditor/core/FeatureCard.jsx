@@ -20,21 +20,21 @@ const FeatureCard = ({ icon: Icon, title, description, onClick, category }) => {
 
     return (
         <div
-        className={`p-6 rounded-lg ${
-            darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-50"
-        } shadow-lg transition-all cursor-pointer hover:scale-105 hover:shadow-xl`}
+        className={`cursor-pointer rounded-3xl border p-6 shadow-lg transition-all hover:-translate-y-1 hover:shadow-2xl ${
+            darkMode ? "border-gray-800 bg-[#111520]/80 hover:border-blue-500/30" : "border-gray-200 bg-white hover:border-blue-200"
+        }`}
         onClick={onClick}
         >
         <div className="mb-4">
             <Icon className={`w-12 h-12 ${getCategoryColor()}`} />
         </div>
-        <h3 className="mb-2 text-xl font-semibold">{title}</h3>
+        <h3 className="mb-2 text-xl font-semibold tracking-tight">{title}</h3>
         <p className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
             {description}
         </p>
         {category && (
-            <span className={`inline-block mt-2 px-2 py-1 text-xs rounded-full ${
-            darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-100 text-gray-600"
+            <span className={`inline-block mt-3 rounded-full px-2 py-1 text-xs font-semibold ${
+            darkMode ? "bg-white/5 text-gray-300" : "bg-slate-100 text-slate-600"
             }`}>
             {category.charAt(0).toUpperCase() + category.slice(1)}
             </span>

@@ -262,7 +262,7 @@ const VideoEffectsTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
+        <>
         {!mediaUrl ? (
             <MediaUploader
             uploading={uploading}
@@ -271,6 +271,7 @@ const VideoEffectsTool = ({
             supportedFormats="Videos (MP4, WebM, AVI, MOV)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             <video
                 src={transformedUrl || mediaUrl}
@@ -282,8 +283,9 @@ const VideoEffectsTool = ({
                 Live Preview - Effects Applied
             </div>
             </div>
+            </div>
         )}
-        </div>
+        </>
     );
 
     return (

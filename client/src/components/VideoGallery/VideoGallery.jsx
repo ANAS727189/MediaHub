@@ -121,7 +121,7 @@ export const VideoGallery = ({ videos, onVideoSelect, onVideoDelete }) => {
   }, [deleteFeedback]);
 
   return (
-    <div className="mt-12">
+    <div className="mt-2">
       <AppDialog
         open={dialogConfig.open}
         darkMode={darkMode}
@@ -136,13 +136,15 @@ export const VideoGallery = ({ videos, onVideoSelect, onVideoDelete }) => {
 
       {/* Section: Uploaded Videos */}
       <div className="flex items-center mb-6 space-x-2">
-        <Film className="w-6 h-6 text-blue-500" />
-        <h2 className="text-2xl font-semibold">Your Uploaded Videos</h2>
+        <div className={`rounded-2xl p-2 ${darkMode ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
+          <Film className="w-6 h-6 text-blue-500" />
+        </div>
+        <h2 className="text-2xl font-semibold tracking-tight">Your Uploaded Videos</h2>
       </div>
 
       {deleteFeedback && (
         <div
-          className={`mb-4 rounded-md border px-3 py-2 text-sm ${
+          className={`mb-4 rounded-2xl border px-3 py-2 text-sm ${
             deleteFeedback.type === 'success'
               ? darkMode
                 ? 'bg-green-950 border-green-800 text-green-200'
@@ -174,8 +176,8 @@ export const VideoGallery = ({ videos, onVideoSelect, onVideoDelete }) => {
         </div>
       ) : (
         <div
-          className={`flex flex-col items-center justify-center p-12 rounded-lg ${
-            darkMode ? 'bg-gray-800' : 'bg-gray-100'
+          className={`flex flex-col items-center justify-center rounded-3xl border p-12 ${
+            darkMode ? 'border-gray-800 bg-white/[0.03]' : 'border-gray-200 bg-slate-50'
           }`}
         >
           <Film className="w-12 h-12 mb-4 text-gray-400" />
@@ -191,8 +193,10 @@ export const VideoGallery = ({ videos, onVideoSelect, onVideoDelete }) => {
       {/* Section: Recommended Videos */}
       <div className="mt-8">
         <div className="flex items-center mb-6 space-x-2">
-          <Headset className="w-8 h-8 text-blue-500" />
-          <h2 className="text-2xl font-semibold">Recommended Videos</h2>
+          <div className={`rounded-2xl p-2 ${darkMode ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
+            <Headset className="text-blue-500 h-7 w-7" />
+          </div>
+          <h2 className="text-2xl font-semibold tracking-tight">Recommended Videos</h2>
         </div>
         
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -210,7 +214,7 @@ export const VideoGallery = ({ videos, onVideoSelect, onVideoDelete }) => {
           ))}
         </div>
 
-        <p className="p-3 mt-6 text-xl">More videos coming soon...</p>
+        <p className={`mt-6 rounded-2xl border px-4 py-3 text-sm ${darkMode ? 'border-gray-800 bg-white/[0.03] text-gray-400' : 'border-gray-200 bg-white text-gray-500'}`}>More videos coming soon...</p>
       </div>
     </div>
   );

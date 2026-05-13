@@ -31,11 +31,13 @@ const FeaturesGrid = ({ onFeatureClick }) => {
     return (
         <div>
         {/* Filter Bar */}
-        <div className={`mb-6 p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`mb-6 rounded-3xl border p-4 shadow-[0_24px_80px_rgba(15,23,42,0.08)] ${darkMode ? 'border-gray-800 bg-[#111520]/80' : 'border-gray-200 bg-white/90'}`}>
             <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-                <Filter className="w-5 h-5 text-violet-600" />
-                <h3 className="text-lg font-semibold">Filter Tools</h3>
+                <div className={`rounded-2xl p-2 ${darkMode ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
+                  <Filter className="w-5 h-5 text-blue-500" />
+                </div>
+                <h3 className="text-lg font-semibold tracking-tight">Filter Tools</h3>
             </div>
             <span className="text-sm text-gray-500">
                 {getFilteredTools().length} tools available
@@ -49,10 +51,10 @@ const FeaturesGrid = ({ onFeatureClick }) => {
                 onClick={() => setActiveFilter(option.id)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeFilter === option.id
-                    ? 'bg-violet-600 text-white'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
                     : darkMode 
-                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-white/5 text-gray-300 hover:bg-white/10' 
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
                 >
                 {option.label} ({option.count})
@@ -77,7 +79,7 @@ const FeaturesGrid = ({ onFeatureClick }) => {
 
         {/* Category Info */}
         {activeFilter !== 'all' && (
-            <div className={`mt-6 p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+            <div className={`mt-6 rounded-3xl border p-4 shadow-[0_24px_80px_rgba(15,23,42,0.08)] ${darkMode ? 'border-gray-800 bg-[#111520]/80' : 'border-gray-200 bg-white/90'}`}>
             <div className="text-sm text-gray-500">
                 {activeFilter === 'image' && (
                 <p>Image tools help you resize, crop, enhance, and transform your photos with professional-grade features.</p>

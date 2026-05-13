@@ -1,168 +1,176 @@
-import React from 'react';
+import React from "react";
 import { ToggleTheme } from "../context/UserContext";
-import { 
-  MonitorPlay, ThumbsUp, Lock, 
-  Zap, Palette, Headphones,
-  Users, Share2, BarChart3, ArrowRight, Play
-} from 'lucide-react';
+import {
+  MonitorPlay, Palette, Play, Zap, BarChart3, Cloud, ArrowRight,
+} from "lucide-react";
+
+const features = [
+  {
+    title: "Media Transformation",
+    description:
+      "Cloudinary-powered processing with AI upscaling, smart cropping, format conversion, and advanced image and video transformations at scale.",
+    icon: MonitorPlay,
+    accent: "from-violet-500 to-blue-500",
+    iconBg: "bg-violet-500/15",
+    iconColor: "text-violet-400",
+    wide: true,
+  },
+  {
+    title: "Image Editing Suite",
+    description:
+      "Complete toolkit — resize, crop, compress, rotate, and apply professional effects with precision and real-time preview.",
+    icon: Palette,
+    accent: "from-emerald-500 to-teal-500",
+    iconBg: "bg-emerald-500/15",
+    iconColor: "text-emerald-400",
+    wide: false,
+  },
+  {
+    title: "Video Processing",
+    description:
+      "HLS streaming, trimming, audio controls, color grading, and real-time thumbnail generation via FFmpeg.",
+    icon: Play,
+    accent: "from-rose-500 to-pink-500",
+    iconBg: "bg-rose-500/15",
+    iconColor: "text-rose-400",
+    wide: false,
+  },
+  {
+    title: "Format Conversion",
+    description:
+      "Convert between JPG, PNG, WebP, AVIF, MP4, WebM, AVI, MOV — with customizable compression and quality settings.",
+    icon: Zap,
+    accent: "from-amber-500 to-orange-500",
+    iconBg: "bg-amber-500/15",
+    iconColor: "text-amber-400",
+    wide: false,
+  },
+  {
+    title: "Analytics & Insights",
+    description:
+      "Real-time view tracking, engagement metrics, and comprehensive upload analytics for your media library.",
+    icon: BarChart3,
+    accent: "from-blue-500 to-cyan-500",
+    iconBg: "bg-blue-500/15",
+    iconColor: "text-blue-400",
+    wide: true,
+  },
+  {
+    title: "Cloud Infrastructure",
+    description:
+      "Global CDN delivery with enterprise-grade reliability, secure file handling, and seamless cloud processing.",
+    icon: Cloud,
+    accent: "from-indigo-500 to-purple-500",
+    iconBg: "bg-indigo-500/15",
+    iconColor: "text-indigo-400",
+    wide: false,
+  },
+];
+
+const FeatureCard = ({ feature, darkMode }) => {
+  const Icon = feature.icon;
+
+  return (
+    <div
+      className={`group relative flex flex-col p-6 lg:p-7 rounded-2xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+        feature.wide ? "md:col-span-2" : "col-span-1"
+      } ${
+        darkMode
+          ? "bg-[#12151F] border-gray-800 hover:border-gray-700"
+          : "bg-white border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md"
+      }`}
+    >
+      {/* Subtle gradient wash on hover */}
+      <div
+        className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${feature.accent} pointer-events-none`}
+        style={{ opacity: 0 }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = "0.03"}
+        onMouseLeave={(e) => e.currentTarget.style.opacity = "0"}
+      />
+
+      {/* Icon */}
+      <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${feature.iconBg} flex-shrink-0`}>
+        <Icon className={`w-5 h-5 ${feature.iconColor}`} />
+      </div>
+
+      {/* Text */}
+      <h3
+        className={`font-display mt-4 text-lg font-bold leading-snug ${
+          darkMode ? "text-white" : "text-gray-950"
+        }`}
+      >
+        {feature.title}
+      </h3>
+
+      <p
+        className={`mt-2 text-sm leading-relaxed flex-grow ${
+          darkMode ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
+        {feature.description}
+      </p>
+
+      {/* Footer link */}
+      <div
+        className={`mt-5 inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200 ${
+          darkMode
+            ? "text-gray-600 group-hover:text-blue-400"
+            : "text-gray-400 group-hover:text-blue-600"
+        }`}
+      >
+        Learn more
+        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+      </div>
+    </div>
+  );
+};
 
 const BentoGridSection = () => {
   const { darkMode } = ToggleTheme();
-  
-  const features = [
-    {
-      title: "Media Transformation",
-      description: "Powerful Cloudinary-powered media processing with AI upscaling, smart cropping, format conversion, and advanced image/video transformations.",
-      icon: <MonitorPlay className="w-8 h-8" />,
-      size: "large",
-      gradient: "from-purple-500 to-blue-500",
-      position: "col-span-1 md:col-span-2 lg:col-span-2"
-    },
-    {
-      title: "Image Editing Suite",
-      description: "Complete toolkit for image manipulation - resize, crop, compress, rotate, and apply professional effects with precision.",
-      icon: <Palette className="w-8 h-8" />,
-      size: "medium",
-      gradient: "from-green-500 to-emerald-500",
-      position: "col-span-1"
-    },
-    {
-      title: "Video Processing",
-      description: "Advanced video editing with HLS streaming, trimming, audio controls, effects, and real-time thumbnail generation.",
-      icon: <Play className="w-8 h-8" />,
-      size: "medium",
-      gradient: "from-red-500 to-rose-500",
-      position: "col-span-1"
-    },
-    {
-      title: "Format Conversion",
-      description: "Convert between multiple formats - JPG, PNG, WebP, MP4, AVI, and more with optimized compression settings.",
-      icon: <Zap className="w-8 h-8" />,
-      size: "medium",
-      gradient: "from-yellow-500 to-orange-500",
-      position: "col-span-1"
-    },
-    {
-      title: "Professional Features",
-      description: "Enterprise-grade tools including watermarking, batch processing, secure file handling, and comprehensive analytics for professional workflows.",
-      icon: <BarChart3 className="w-8 h-8" />,
-      size: "large",
-      gradient: "from-blue-500 to-cyan-500",
-      position: "col-span-1 md:col-span-2 lg:col-span-2"
-    },
-    {
-      title: "Cloud Integration",
-      description: "Seamless cloud processing with CDN delivery, ensuring fast performance and reliable media handling worldwide.",
-      icon: <Lock className="w-8 h-8" />,
-      size: "medium",
-      gradient: "from-indigo-500 to-purple-500",
-      position: "col-span-1"
-    }
-  ];
 
   return (
-    <div className={`py-16 sm:py-20 lg:py-24 transition-colors duration-200 ${
-      darkMode ? 'bg-gray-900' : 'bg-white'
-    }`}>
+    <section
+      className={`py-24 lg:py-32 transition-colors duration-200 ${
+        darkMode ? "bg-[#0B0D14]" : "bg-slate-50"
+      }`}
+    >
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
 
-      <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
-          <p className={`text-sm sm:text-base font-semibold uppercase tracking-wide ${
-            darkMode ? 'text-blue-400' : 'text-blue-600'
-          }`}>
+        {/* Section header */}
+        <div className="text-center mb-14 lg:mb-16">
+          <p
+            className={`text-xs font-semibold tracking-[0.14em] uppercase ${
+              darkMode ? "text-blue-400" : "text-blue-600"
+            }`}
+          >
             Powerful Tools
           </p>
-          <h2 className={`mt-2 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight ${
-            darkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Everything You Need for
-            <span className={`block ${
-              darkMode ? 'text-blue-400' : 'text-blue-600'
-            }`}>
-              Media Processing
-            </span>
+          <h2
+            className={`font-display mt-3 text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight ${
+              darkMode ? "text-white" : "text-gray-950"
+            }`}
+          >
+            Everything You Need for{" "}
+            <span className="text-blue-500">Media Processing</span>
           </h2>
-          <p className={`mt-4 max-w-3xl mx-auto text-base sm:text-lg lg:text-xl ${
-            darkMode ? 'text-gray-300' : 'text-gray-500'
-          }`}>
-            From simple edits to complex transformations, our comprehensive suite of tools handles all your media processing needs
+          <p
+            className={`mt-4 max-w-2xl mx-auto text-base lg:text-lg ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+            From simple edits to complex transformations — our suite handles
+            all your media processing needs in one platform.
           </p>
         </div>
 
-        {/* Professional Bento Grid Layout */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6 lg:gap-6">
-          {features.map((feature, index) => (
-            <div 
-              key={index}
-              className={`group relative overflow-hidden rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg sm:shadow-xl transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-xl sm:hover:shadow-2xl ${
-                feature.position
-              } ${
-                feature.size === 'large' 
-                  ? 'min-h-[280px] sm:min-h-[320px] lg:min-h-[400px] xl:min-h-[380px]' 
-                  : 'min-h-[240px] sm:min-h-[280px] lg:min-h-[320px] xl:min-h-[320px]'
-              } ${
-                darkMode 
-                  ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700' 
-                  : 'bg-white hover:bg-gray-50 border border-gray-100'
-              }`}
-            >
-              {/* Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-5 transition-opacity duration-500 z-0`} />
-              
-              {/* Content Container */}
-              <div className="relative z-10 flex flex-col justify-between h-full p-4 sm:p-6 lg:p-8">
-                {/* Top Section - Icon and Title */}
-                <div className="flex-shrink-0">
-                  <div className={`inline-flex items-center justify-center p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg bg-gradient-to-br ${feature.gradient} text-white group-hover:scale-110 transition-transform duration-300`}>
-                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8">
-                      {feature.icon}
-                    </div>
-                  </div>
-                  
-                  <h3 className={`mt-3 sm:mt-4 lg:mt-6 text-base sm:text-lg lg:text-xl xl:text-2xl font-bold leading-tight ${
-                    darkMode ? 'text-white' : 'text-gray-900'
-                  }`}>
-                    {feature.title}
-                  </h3>
-                </div>
-
-                {/* Middle Section - Description */}
-                <div className="flex-grow mt-2 sm:mt-3 lg:mt-4">
-                  <p className={`text-xs sm:text-sm lg:text-base leading-relaxed ${
-                    darkMode ? 'text-gray-300' : 'text-gray-600'
-                  } ${feature.size === 'large' ? 'lg:text-lg' : ''}`}>
-                    {feature.description}
-                  </p>
-                </div>
-
-                {/* Bottom Section - Learn More Link */}
-                <div className="flex-shrink-0 mt-3 sm:mt-4 lg:mt-6">
-                  <div className={`inline-flex items-center text-xs sm:text-sm font-semibold cursor-pointer ${
-                    darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'
-                  } transition-colors duration-300`}>
-                    Learn more
-                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2 transition-transform duration-300 transform group-hover:translate-x-1" />
-                  </div>
-                </div>
-
-                {/* Decorative Elements for Large Cards */}
-                {feature.size === 'large' && (
-                  <>
-                    <div className={`absolute -top-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-32 xl:h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl`} />
-                    <div className={`absolute -bottom-4 -left-4 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-24 xl:h-24 bg-gradient-to-tr ${feature.gradient} opacity-5 rounded-full blur-xl`} />
-                  </>
-                )}
-              </div>
-
-              {/* Hover Effect Border */}
-              <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${feature.gradient} opacity-10 z-0`} />
-            </div>
+        {/* Bento grid */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          {features.map((feature, i) => (
+            <FeatureCard key={i} feature={feature} darkMode={darkMode} />
           ))}
         </div>
-      
       </div>
-    </div>
+    </section>
   );
 };
 

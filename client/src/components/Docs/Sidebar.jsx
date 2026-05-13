@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ToggleTheme } from '../../context/UserContext';
 import { BookOpen, Download, Code, Server, Users, HelpCircle, Menu, X, Settings, Zap } from 'lucide-react';
 
@@ -15,20 +14,33 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { id: 'faq', label: 'FAQ & Troubleshooting', icon: HelpCircle },
   ];
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.replaceState(null, '', `#${sectionId}`);
+    }
+
+    if (window.innerWidth < 768) {
+      toggleSidebar();
+    }
+  };
+
   return (
-    <div className={`fixed md:relative z-30 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out`}>
-      <div className={`w-64 h-full border-r transition duration-300 ${
+    <div className={`fixed z-30 transform transition-transform duration-300 ease-in-out md:sticky md:top-24 ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+      <div className={`h-full w-72 border-r backdrop-blur-xl transition duration-300 ${
         darkMode 
-          ? 'bg-gray-900 text-gray-200 border-gray-700' 
-          : 'bg-white text-gray-800 border-gray-200'
+          ? 'border-gray-800/90 bg-[#0B0D14]/95 text-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.35)]' 
+          : 'border-gray-200 bg-white/95 text-gray-800 shadow-[0_20px_60px_rgba(15,23,42,0.08)]'
       }`}>
-        <div className="sticky top-0 z-10 p-4 bg-opacity-90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+        <div className={`sticky top-0 z-10 border-b p-4 ${darkMode ? 'border-gray-800 bg-[#0B0D14]/90' : 'border-gray-200 bg-white/90'}`}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-blue-600">MediaHub Docs</h2>
-              <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Comprehensive Guide</p>
+              <h2 className="text-xl font-bold tracking-tight text-blue-500">MediaHub Docs</h2>
+              <p className={`mt-1 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Comprehensive Guide</p>
             </div>
-            <button onClick={toggleSidebar} className="md:hidden p-2">
+            <button onClick={toggleSidebar} className={`rounded-lg p-2 md:hidden ${darkMode ? 'text-gray-300 hover:bg-white/5' : 'text-gray-600 hover:bg-gray-100'}`}>
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -39,17 +51,18 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               const Icon = item.icon;
               return (
                 <li key={item.id}>
-                  <Link
-                    to={`#${item.id}`}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition duration-150 ${
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection(item.id)}
+                    className={`flex w-full items-center space-x-3 rounded-xl border px-3 py-3 text-left transition duration-150 ${
                       darkMode
-                        ? 'hover:bg-gray-800 text-gray-300 hover:text-white'
-                        : 'hover:bg-gray-100 text-gray-600 hover:text-blue-600'
+                        ? 'border-transparent text-gray-300 hover:border-gray-700 hover:bg-white/5 hover:text-white'
+                        : 'border-transparent text-gray-600 hover:border-gray-200 hover:bg-gray-50 hover:text-blue-600'
                     }`}
                   >
-                    <Icon className="h-5 w-5" />
-                    <span>{item.label}</span>
-                  </Link>
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    <span className="text-sm font-medium leading-snug">{item.label}</span>
+                  </button>
                 </li>
               );
             })}

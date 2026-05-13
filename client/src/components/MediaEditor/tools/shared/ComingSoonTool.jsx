@@ -30,14 +30,12 @@ const ComingSoonTool = ({
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Preview Area */}
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
-            <MediaUploader
+        <MediaUploader
             uploading={uploading}
             onFileUpload={onFileUpload}
             accept="image/*,video/*"
             supportedFormats="Images and Videos (All formats supported)"
-            />
-        </div>
+        />
 
         {/* Coming Soon Panel */}
         <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg flex flex-col items-center justify-center`}>

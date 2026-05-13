@@ -398,8 +398,7 @@ const FormatConversionTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
-        {!mediaUrl ? (
+        !mediaUrl ? (
             <MediaUploader
             uploading={uploading}
             onFileUpload={onFileUpload}
@@ -407,18 +406,18 @@ const FormatConversionTool = ({
             supportedFormats="Images and Videos (All formats supported)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             {isVideo ? (
                 <>
                 <video
-                    key={transformedUrl || mediaUrl} // Force re-render on URL change
+                    key={transformedUrl || mediaUrl}
                     src={transformedUrl || mediaUrl}
                     controls
                     className="w-full rounded-lg"
                     style={{ maxHeight: '400px' }}
                     onError={(e) => {
                     console.error('Video load error:', e);
-                    // Fallback to original if transformed URL fails
                     if (transformedUrl && e.target.src === transformedUrl) {
                         e.target.src = mediaUrl;
                     }
@@ -433,7 +432,7 @@ const FormatConversionTool = ({
             ) : (
                 <>
                 <img
-                    key={transformedUrl || mediaUrl} // Force re-render on URL change
+                    key={transformedUrl || mediaUrl}
                     src={transformedUrl || mediaUrl}
                     alt="Format conversion preview"
                     className="w-full rounded-lg"
@@ -441,7 +440,6 @@ const FormatConversionTool = ({
                     onError={(e) => {
                     console.error('Image load error:', e);
                     console.error('Failed URL:', e.target.src);
-                    // Fallback to original if transformed URL fails
                     if (transformedUrl && e.target.src === transformedUrl) {
                         e.target.src = mediaUrl;
                     }
@@ -457,7 +455,7 @@ const FormatConversionTool = ({
                 )}
                 </>
             )}
-            
+
             <div className="flex justify-center mt-4">
                 <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm ${
                 conversionSettings.outputFormat === 'auto' 
@@ -478,8 +476,8 @@ const FormatConversionTool = ({
                 </div>
             </div>
             </div>
-        )}
-        </div>
+            </div>
+        )
     );
 
     return (
@@ -488,6 +486,6 @@ const FormatConversionTool = ({
         {mediaUrl && renderControls()}
         </div>
     );
-    };
+};
 
 export default FormatConversionTool;

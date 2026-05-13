@@ -6,10 +6,12 @@ const Content = () => {
   const { darkMode } = ToggleTheme();
 
   const Section = ({ id, title, icon: Icon, children }) => (
-    <section id={id} className="mb-16 scroll-mt-6">
+    <section id={id} className={`mb-8 scroll-mt-24 rounded-[2rem] border p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)] md:mb-10 md:p-8 ${darkMode ? 'border-gray-800 bg-[#111520]/80' : 'border-gray-200 bg-white/90'}`}>
       <div className="flex items-center gap-3 mb-6">
-        <Icon className={`w-8 h-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
-        <h2 className="text-3xl font-bold">{title}</h2>
+        <div className={`rounded-2xl p-2 ${darkMode ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
+          <Icon className={`w-6 h-6 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h2>
       </div>
       {children}
     </section>
@@ -18,12 +20,12 @@ const Content = () => {
   const CodeBlock = ({ children, title }) => (
     <div className="mb-6">
       {title && (
-        <h4 className={`text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <h4 className={`mb-2 text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           {title}
         </h4>
       )}
-      <pre className={`p-4 rounded-lg font-mono text-sm overflow-x-auto ${
-        darkMode ? 'bg-gray-800 text-gray-200' : 'bg-gray-100 text-gray-800'
+      <pre className={`overflow-x-auto rounded-2xl border p-4 font-mono text-sm ${
+        darkMode ? 'border-gray-700 bg-[#0B0D14] text-gray-200' : 'border-gray-200 bg-slate-950 text-slate-100'
       }`}>
         <code>{children}</code>
       </pre>
@@ -31,16 +33,16 @@ const Content = () => {
   );
 
   const FeatureCard = ({ icon: Icon, title, description, status = "Active" }) => (
-    <div className={`p-4 rounded-lg border ${
+    <div className={`rounded-2xl border p-4 transition-colors hover:shadow-lg ${
       darkMode 
-        ? 'bg-gray-800 border-gray-700 hover:border-gray-600' 
-        : 'bg-white border-gray-200 hover:border-gray-300'
-    } transition-colors hover:shadow-lg`}>
+        ? 'border-gray-700 bg-white/[0.03] hover:border-blue-500/30' 
+        : 'border-gray-200 bg-white hover:border-blue-200'
+    }`}>
       <div className="flex items-start justify-between mb-3">
         <Icon className={`w-6 h-6 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
-        <span className="text-sm">{status}</span>
+        <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${darkMode ? 'bg-blue-500/10 text-blue-300' : 'bg-blue-50 text-blue-600'}`}>{status}</span>
       </div>
-      <h3 className="font-bold mb-2">{title}</h3>
+      <h3 className="mb-2 font-bold tracking-tight">{title}</h3>
       <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
         {description}
       </p>
@@ -48,18 +50,18 @@ const Content = () => {
   );
 
   return (
-    <div className={`h-full transition-colors duration-300 ${
-      darkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-800'
+    <div className={`min-h-full transition-colors duration-300 ${
+      darkMode ? 'bg-[#0B0D14] text-gray-200' : 'bg-slate-50 text-gray-800'
     }`}>
-      <div className="max-w-4xl mx-auto p-8">
-        <div className="mb-12">
-          <h1 className="text-5xl font-extrabold mb-6 text-blue-600">
+      <div className="mx-auto max-w-5xl px-4 py-8 md:px-6 lg:px-8 lg:py-10">
+        <div className={`mb-8 rounded-[2rem] border p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)] md:p-8 ${darkMode ? 'border-gray-800 bg-[#111520]/80' : 'border-gray-200 bg-white/90'}`}>
+          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-blue-500 md:text-5xl">
             MediaHub Documentation
           </h1>
-          <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
+          <p className={`mb-4 text-lg md:text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             A comprehensive platform for video streaming, media editing, and content management
           </p>
-          <div className={`p-4 rounded-lg ${darkMode ? 'bg-blue-900/30' : 'bg-blue-50'} border ${darkMode ? 'border-blue-800' : 'border-blue-200'}`}>
+          <div className={`rounded-2xl border p-4 ${darkMode ? 'border-blue-500/20 bg-blue-500/10' : 'border-blue-200 bg-blue-50'}`}>
             <p className="text-sm">
               Built with modern web technologies including React, Node.js, MongoDB, and Cloudinary. 
               Features professional video streaming, comprehensive media editing tools, and secure user authentication.

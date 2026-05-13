@@ -240,7 +240,7 @@ const VideoAudioTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
+        <>
         {!mediaUrl ? (
             <MediaUploader
             uploading={uploading}
@@ -249,6 +249,7 @@ const VideoAudioTool = ({
             supportedFormats="Videos (MP4, WebM, AVI, MOV, MKV)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             {audioSettings.audioOnly ? (
                 <div className="flex flex-col items-center justify-center h-64 bg-gray-100 rounded-lg dark:bg-gray-700">
@@ -275,8 +276,9 @@ const VideoAudioTool = ({
                 {audioSettings.audioOnly && `Extracting: ${audioSettings.audioFormat.toUpperCase()}`}
             </div>
             </div>
+            </div>
         )}
-        </div>
+        </>
     );
 
     return (

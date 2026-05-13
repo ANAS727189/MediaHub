@@ -56,7 +56,13 @@ export const useMediaTransform = () => {
             const formatMatch = url.match(/f_([^,/]+)/);
             if (formatMatch) {
                 const format = formatMatch[1];
-                const formatExtensions = {
+                // If Cloudinary was asked for "f_auto" we should detect the real
+                // content type from the response instead of using the literal
+                // "auto" string as a file extension.
+                if (format === 'auto') {
+                    // fall through to content-type detection below
+                } else {
+                    const formatExtensions = {
                     'jpg': 'jpg',
                     'jpeg': 'jpg', 
                     'png': 'png',
@@ -73,8 +79,9 @@ export const useMediaTransform = () => {
                     'mkv': 'mkv',
                     'flv': 'flv',
                     'ogg': 'ogv'
-                };
-                extension = formatExtensions[format] || format;
+                    };
+                    extension = formatExtensions[format] || format;
+                }
             } else {
                 const contentType = response.headers.get("Content-Type");
                 if (contentType) {

@@ -166,7 +166,7 @@ const RotateTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
+        <>
         {!mediaUrl ? (
             <MediaUploader
             uploading={uploading}
@@ -175,6 +175,7 @@ const RotateTool = ({
             supportedFormats="Images (PNG, JPG, WebP, GIF)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             <img
                 src={transformedUrl || mediaUrl}
@@ -186,8 +187,9 @@ const RotateTool = ({
                 Rotation: {rotation}°
             </div>
             </div>
+            </div>
         )}
-        </div>
+        </>
     );
 
     return (

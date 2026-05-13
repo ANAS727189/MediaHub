@@ -99,7 +99,7 @@ const CropTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
+        <>
         {!mediaUrl ? (
             <MediaUploader
             uploading={uploading}
@@ -108,6 +108,7 @@ const CropTool = ({
             supportedFormats="Images (PNG, JPG, WebP, GIF)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             <ReactCrop
                 crop={crop}
@@ -127,8 +128,9 @@ const CropTool = ({
                 />
             </ReactCrop>
             </div>
+            </div>
         )}
-        </div>
+        </>
     );
 
     return (

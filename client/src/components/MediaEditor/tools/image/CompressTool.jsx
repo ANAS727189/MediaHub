@@ -37,29 +37,6 @@ const CompressTool = ({
 
     const renderControls = () => (
         <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
-        <h3 className="mb-4 text-lg font-semibold">Compression Settings</h3>
-
-        {/* Preset Buttons */}
-        <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium">Quick Presets</label>
-            <div className="grid grid-cols-1 gap-2">
-            {compressionPresets.map((preset, index) => (
-                <button
-                key={index}
-                onClick={() => setQuality(preset.quality)}
-                className={`p-3 text-left border rounded-lg transition-colors ${
-                    quality === preset.quality
-                    ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20'
-                    : 'border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
-                >
-                <div className="font-medium">{preset.name}</div>
-                <div className="text-sm text-gray-500">{preset.description}</div>
-                </button>
-            ))}
-            </div>
-        </div>
-
         {/* Manual Quality Control */}
         <div className="mb-4">
             <label className="block mb-2 text-sm font-medium">
@@ -131,7 +108,7 @@ const CompressTool = ({
     );
 
     const renderPreview = () => (
-        <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
+        <>
         {!mediaUrl ? (
             <MediaUploader
             uploading={uploading}
@@ -140,6 +117,7 @@ const CompressTool = ({
             supportedFormats="Images (PNG, JPG, WebP, GIF)"
             />
         ) : (
+            <div className={`p-6 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}>
             <div className="relative">
             <img
                 src={transformedUrl || mediaUrl}
@@ -151,8 +129,9 @@ const CompressTool = ({
                 Quality: {quality}% | Format: {format.toUpperCase()}
             </div>
             </div>
+            </div>
         )}
-        </div>
+        </>
     );
 
     return (
