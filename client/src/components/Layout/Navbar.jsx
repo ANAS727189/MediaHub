@@ -5,7 +5,6 @@ import { ToggleTheme } from "../../context/UserContext";
 import {
   SignedIn,
   SignedOut,
-  SignInButton,
   UserButton,
   useUser as ClerkUser,
 } from "@clerk/clerk-react";
@@ -128,11 +127,12 @@ const Navbar = () => {
                 </div>
               </SignedIn>
               <SignedOut>
-                <SignInButton>
-                  <button className="px-4 py-1.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors">
-                    Sign in
-                  </button>
-                </SignInButton>
+                <button
+                  onClick={() => navigate("/sign-in")}
+                  className="px-4 py-1.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                >
+                  Sign in
+                </button>
               </SignedOut>
             </div>
 
@@ -191,11 +191,12 @@ const Navbar = () => {
               </SignedIn>
               <SignedOut>
                 <div className="px-3">
-                  <SignInButton>
-                    <button className="w-full px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors">
-                      Sign in
-                    </button>
-                  </SignInButton>
+                  <button
+                    onClick={() => { navigate("/sign-in"); setMobileOpen(false); }}
+                    className="w-full px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                  >
+                    Sign in
+                  </button>
                 </div>
               </SignedOut>
             </div>
