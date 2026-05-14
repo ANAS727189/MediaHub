@@ -7,9 +7,11 @@ import Docs from "./components/Docs/Docs";
 import VideoStreamingNew from "./components/StreamingPage/VideoStreaming";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 import { UserProvider } from "./context/UserContext";
-import { SignIn, useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 import MediaEditor from "./components/MediaEditor/MediaEditor";
 import BrandedLoader from "./components/Common/BrandedLoader";
+import SignInPage from "./components/Auth/SignInPage";
+import SignUpPage from "./components/Auth/SignUpPage";
 
 function PrivateRoute({ children }) {
   const { isLoaded, isSignedIn } = useUser();
@@ -78,7 +80,8 @@ function App() {
                 }
 
               />
-              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-in" element={<SignInPage />} />
+              <Route path="/sign-up" element={<SignUpPage />} />
             </Routes>
           </main>
 
